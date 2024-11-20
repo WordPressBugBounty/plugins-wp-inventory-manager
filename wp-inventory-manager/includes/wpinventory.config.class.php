@@ -47,10 +47,6 @@ class WPIMConfig {
 	}
 
 	public function set( $field, $value ) {
-		if ( ! is_array( self::$config ) ) {
-			self::$config = [ self::$config ];
-		}
-
 		if ( $field == 'seo_endpoint' && $value != self::$config[ $field ] ) {
 			self::$config['flush_rewrite'] = 1;
 		}
@@ -68,10 +64,6 @@ class WPIMConfig {
 
 	public static function loadConfig() {
 		self::$config = get_option( self::$SETTINGS );
-
-		if ( ! is_array( self::$config ) ) {
-			self::$config = [ self::$config ];
-		}
 
 		$defaults = self::defaults();
 		foreach ( $defaults AS $field => $default ) {
@@ -132,7 +124,7 @@ class WPIMConfig {
 			'reserve_email_message_position' => 1, // 0 = top of message, 1 = bottom of message
 
 			// Use media upload
-			'use_media'                      => 0,
+			'use_media'                      => 1,
 
 			// Items per page (pagination
 			'page_size'                      => 20,

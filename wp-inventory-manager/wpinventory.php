@@ -4,13 +4,13 @@
  * Plugin Name:    WP Inventory
  * Plugin URI:    http://www.wpinventory.com
  * Description:    Manage and display your products just like a shopping cart, but without the cart.
- * Version:        2.2.1
+ * Version:        2.3.0
  * Author:        WP Inventory Manager
  * Author URI:    http://www.wpinventory.com/
  * Text Domain:    wpinventory
  *
  * ------------------------------------------------------------------------
- * Copyright 2009-2022 WP Inventory Manager, LLC
+ * Copyright 2009-2021 WP Inventory Manager, LLC
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,7 +33,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 abstract class WPIMConstants {
-	const VERSION = '2.2.1';
+	const VERSION = '2.3.0';
 	const MIN_PHP_VERSION = '5.6';
 	const SHORTCODE = 'wpinventory';
 	const SETTINGS = 'wpinventory_settings';
@@ -57,7 +57,7 @@ function wp_inventory_launch() {
 		return;
 	}
 
-	define( 'WPIM_PLUGIN_FILE', plugin_basename( __FILE__ ) );
+	define('WPIM_PLUGIN_FILE', plugin_basename(__FILE__));
 	require_once 'wpinventory.core.php';
 	WPInventoryInit::initialize();
 }

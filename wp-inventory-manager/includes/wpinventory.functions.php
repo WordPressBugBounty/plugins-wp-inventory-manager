@@ -72,8 +72,7 @@ function wpinventory_get_template_part( $slug, $name = NULL, $echo = TRUE, $args
 	}
 
 	if ( $echo ) {
-		// This is not run through wp_kses because it breaks the form, but the template uses esc_ functions as necessary
-		echo $html;
+		echo wp_kses( $html, 'post' );
 		do_action( 'wpim_post_get_template_part_' . $slug, $slug, $name );
 	} else {
 		do_action( 'wpim_post_get_template_part_' . $slug, $slug, $name );
@@ -792,7 +791,7 @@ function wpinventory_get_reserve_config( $args = [] ) {
 	}
 
 	if ( ! $inventory_id ) {
-		$inventory_id = ( ! empty( $_POST['_wpim_inventory_id'] ) ) ? WPIMCore::request( '_wpim_inventory_id' ) : NULL;
+		$inventory_id = ( ! empty( $_POST['_wpim_inventory_id'] ) ) ? WPIMCore::request('_wpim_inventory_id') : NULL;
 	}
 
 	$default = [
@@ -845,11 +844,11 @@ function wpinventory_reserve_form( $args = NULL ) {
 
 	if ( WPIMReserveService::display() ) {
 		$args['error'] = WPIMReserveService::error();
-		return wpinventory_get_template_part( 'reserve-form', '', TRUE, $args );
+		return wpinventory_get_template_part( 'reserve-form', '', FALSE, $args );
 	}
 
 	if ( WPIMReserveService::message() ) {
-		return '<a id="wpim_reserve" name="wpim_reserve"></a><div class="wpinventory_message">' . esc_attr( WPIMReserveService::message() ) . '</div>';
+		return '<a id="wpim_reserve" name="wpim_reserve"></a><div class="wpinventory_message">' . WPIMReserveService::message() . '</div>';
 	}
 
 	return '';

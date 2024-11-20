@@ -165,14 +165,13 @@ abstract class WPIMCore extends WPIMConstants {
 	 *
 	 * @param string $key
 	 * @param mixed  $default
-	 * @param string $type - "text" | "email" | "textarea" | "wysiwyg" | "array"
+	 * @param string $type - "text" | "email" | "textarea"
 	 *
 	 * @return mixed
 	 */
 	public static function request( $key, $default = NULL, $type = 'text' ) {
-		// Prioritize $_POST, and then sanitize below depending on type (179, 185, 190, 195, default 199)
-		$var = ( isset( $_POST[ $key ] ) ) ? $_POST[ $key ] : $default;
-		$var = ( isset( $_GET[ $key ] ) && ! $var ) ? $_GET[ $key ] : $var;
+		$var = ( isset( $_GET[ $key ] ) ) ? $_GET[ $key ] : $default;
+		$var = ( isset( $_POST[ $key ] ) ) ? $_POST[ $key ] : $var;
 
 		// this has to go first.
 		if ( 'array' == $type || is_array( $var ) ) {
@@ -801,6 +800,15 @@ abstract class WPIMCore extends WPIMConstants {
     "item_id": 1275
   },
   {
+    "title": "Bulk Item Manager",
+    "image": "' . self::$PLUGIN_URL . 'images\\/icons\\/bulk_item_manager.png",
+    "description": "<p>Powerful tool for deleting and updating items in bulk.  Select based on a variety of criteria, preview the changes, and more.</p>",
+    "learn_more_url": "https:\\/\\/www.wpinventory.com\\/documentation\\/user\\/add-on-documentation\\/bulk-item-management\\/",
+    "key": "bulk_item",
+    "item_name": "Add-On: Bulk Item Manager",
+    "item_id": 1437
+  },
+  {
     "title": "Advanced Inventory Manager",
     "image": "' . self::$PLUGIN_URL . 'images\\/icons\\/advanced_inventory_manager.png",
     "description": "<p>Add more fields, manage the kinds of fields (including drop-downs, radio buttons, and more), support different types of inventory, and more.</p>",
@@ -826,6 +834,15 @@ abstract class WPIMCore extends WPIMConstants {
     "key": "locations_manager",
     "item_name": "Add-On: Locations Manager",
     "item_id": 13153
+  },
+  {
+    "title": "Advanced Search",
+    "image": "' . self::$PLUGIN_URL . 'images\\/icons\\/advanced_search.png",
+    "description": "<p>Provides powerful Amazon-like searching. Allow searching by a variety of fields, including price range.</p>",
+    "learn_more_url": "https:\\/\\/www.wpinventory.com\\/documentation\\/user\\/add-on-documentation\\/advanced-search-filter\\/",
+    "key": "advanced_search",
+    "item_name": "Add-On: Advanced Search",
+    "item_id": 14294
   },
   {
     "title": "Notifications",

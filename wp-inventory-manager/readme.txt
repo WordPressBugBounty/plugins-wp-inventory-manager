@@ -2,8 +2,8 @@
 Contributors: wpinventory.com
 Tags: inventory, inventory manager
 Requires at least: 3.5.0
-Tested up to: 6.3
-Stable Tag: 2.2.0
+Tested up to: 6.7
+Stable Tag: 2.1.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -97,20 +97,12 @@ A. You’re going to want to visit our website for documentation and support: ht
 
 
 == Changelog ==
-= 2.2.1 =
-* Temporarily disable media field to debug security issue
+= 2.3.0 =
+* WordPress 6.7 compatibility
+* Various bug fixes and performance improvements
 
-= 2.1.0.15 =
-* 6/26/2023
-    * Failsafe for settings initialization
-
-= 2.1.0.10 =
-* 11/16/2022
-    * Textarea formatting bug fix
-
-= 2.1.0.8 =
-* Various bug fixes after transition to free
-    * Guarantee reserve form displays properly
+= 2.2.0 =
+* WordPress 6.6 compatibility
 
 = 2.1.0 =
 * 12/22/2021

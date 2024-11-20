@@ -353,6 +353,13 @@ final class WPIMAdmin extends WPIMCore {
 			];
 		}
 
+		if ( empty( $settings['license_key'] ) ) {
+			$messages['license_key'] = [
+				'message' => sprintf( self::__( 'You have not entered a WP Inventory Manager license key in %sLicense Keys Settings%s.' ), $urls['settings_license'], $close_a ),
+				'class'   => 'warning'
+			];
+		}
+
 		if ( empty( $settings['theme'] ) ) {
 			$messages['theme'] = [
 				'message'  => sprintf( self::__( 'You have not selected a theme in %sGeneral Settings%s, so your inventory may not display with attractive styles.' ), $urls['settings_display'], $close_a ),
@@ -741,7 +748,6 @@ final class WPIMAdmin extends WPIMCore {
 		self::$self_url = 'admin.php?page=' . __FUNCTION__;
 
 		$action       = self::get_action();
-		$nonce        = wp_create_nonce( $action . '-item' );
 		$inventory_id = self::request( 'inventory_id' );
 
 		if ( 'save' == $action ) {
@@ -753,11 +759,12 @@ final class WPIMAdmin extends WPIMCore {
 			}
 		} else if ( 'delete' == $action ) {
 			$inventory_id = self::request( 'delete_id' );
-			$success      = self::delete_item( $inventory_id, self::request( 'wp_nonce' ) );
+			$success      = self::delete_item( $inventory_id );
 			$action       = '';
 		}
 
 		self::admin_heading( self::__( 'Manage Inventory Items' ) );
+
 
 		if ( $action == 'edit' || $action == 'add' || $action == 'duplicate' ) {
 			if ( 'duplicate' == $action ) {
@@ -851,7 +858,7 @@ final class WPIMAdmin extends WPIMCore {
 		  while ( $loop->have_items() ) {
 			  $loop->the_item();
 			  $edit_url      = ( self::check_permission( 'view_item', $wpinventory_item->inventory_id ) ) ? self::$self_url . '&action=edit&inventory_id=' . $wpinventory_item->inventory_id : '';
-			  $delete_url    = ( self::check_permission( 'edit_item', $wpinventory_item->inventory_id ) ) ? self::$self_url . '&action=delete&delete_id=' . $wpinventory_item->inventory_id . '&wp_nonce=' . wp_create_nonce( 'delete-item-' . $wpinventory_item->inventory_id ) : '';
+			  $delete_url    = ( self::check_permission( 'edit_item', $wpinventory_item->inventory_id ) ) ? self::$self_url . '&action=delete&delete_id=' . $wpinventory_item->inventory_id : '';
 			  $duplicate_url = ( self::check_permission( 'view_item', $wpinventory_item->inventory_id ) ) ? self::$self_url . '&action=duplicate&duplicate_id=' . $wpinventory_item->inventory_id : '';
 
 			  if ( ! $edit_url ) {
@@ -973,23 +980,23 @@ final class WPIMAdmin extends WPIMCore {
 				return;
 			}
 
-			$inventory_number            = $item->inventory_number;
-			$inventory_name              = $item->inventory_name;
-			$inventory_slug              = $item->inventory_slug;
-			$inventory_status            = $item->inventory_status;
-			$category_id                 = $item->category_id;
-			$inventory_description       = $item->inventory_description;
-			$inventory_size              = $item->inventory_size;
-			$inventory_manufacturer      = $item->inventory_manufacturer;
-			$inventory_make              = $item->inventory_make;
-			$inventory_model             = $item->inventory_model;
-			$inventory_year              = $item->inventory_year;
-			$inventory_serial            = $item->inventory_serial;
-			$inventory_fob               = $item->inventory_fob;
-			$inventory_quantity          = $item->inventory_quantity;
-			$inventory_quantity_reserved = $item->inventory_quantity_reserved;
-			$inventory_price             = $item->inventory_price;
-			$inventory_sort_order        = $item->inventory_sort_order;
+      $inventory_number            = $item->inventory_number;
+      $inventory_name              = $item->inventory_name;
+      $inventory_slug              = $item->inventory_slug;
+      $inventory_status            = $item->inventory_status;
+      $category_id                 = $item->category_id;
+      $inventory_description       = $item->inventory_description;
+      $inventory_size              = $item->inventory_size;
+      $inventory_manufacturer      = $item->inventory_manufacturer;
+      $inventory_make              = $item->inventory_make;
+      $inventory_model             = $item->inventory_model;
+      $inventory_year              = $item->inventory_year;
+      $inventory_serial            = $item->inventory_serial;
+      $inventory_fob               = $item->inventory_fob;
+      $inventory_quantity          = $item->inventory_quantity;
+      $inventory_quantity_reserved = $item->inventory_quantity_reserved;
+      $inventory_price             = $item->inventory_price;
+      $inventory_sort_order        = $item->inventory_sort_order;
 
 			$image       = self::get_item_images( $inventory_id );
 			$media       = self::get_item_media( $inventory_id );
@@ -1144,6 +1151,15 @@ final class WPIMAdmin extends WPIMCore {
           </tr>
 			<?php
 			do_action( 'wpim_admin_edit_form_after_images', $item, $inventory_id );
+			if ( self::$config->get( 'use_media' ) ) { ?>
+              <tr class="inventory_media media">
+                <th><?php self::label( 'inventory_media' ); ?>
+                <td>
+					<?php self::item_media_input( $inventory_id, $media, $media_title ); ?>
+                </td>
+              </tr>
+			<?php }
+			do_action( 'wpim_admin_edit_form_after_media', $item, $inventory_id );
 			?>
           <tr class="inventory_sort_order">
             <th><label for="inventory_sort_order"><?php self::_e( 'Sort Order' ); ?></label></th>
@@ -1352,6 +1368,7 @@ final class WPIMAdmin extends WPIMCore {
 		$inventory_id                = self::request( 'inventory_id' );
 		$inventory_name              = self::request( 'inventory_name' );
 		$inventory_number            = self::request( 'inventory_number' );
+		$inventory_description       = self::request( 'inventory_description' );
 		$inventory_size              = self::request( 'inventory_size' );
 		$inventory_manufacturer      = self::request( 'inventory_manufacturer' );
 		$inventory_make              = self::request( 'inventory_make' );
@@ -1369,11 +1386,10 @@ final class WPIMAdmin extends WPIMCore {
 		// Rather than extract $_POST, get the specific fields we require
 		$fields = self::get_labels();
 		foreach ( $fields AS $field => $labels ) {
-			${$field} = self::request( $field, '', 'wysiwyg' );
+			${$field} = self::request( $field );
 		}
 
-		$inventory_id          = self::request( "inventory_item_id" );
-		$inventory_description = self::request( 'inventory_description', '', 'wysiwyg' );
+		$inventory_id = self::request( "inventory_item_id" );
 
 		if ( ! apply_filters( 'wpim_do_save_item', TRUE, $inventory_id ) ) {
 			return TRUE;
@@ -1438,14 +1454,8 @@ final class WPIMAdmin extends WPIMCore {
 		}
 	}
 
-	public static function delete_item( $inventory_id, $nonce ) {
+	public static function delete_item() {
 		$inventory_id = (int) self::request( "delete_id" );
-		if ( ! wp_verify_nonce( $nonce, 'delete-item-' . $inventory_id ) ) {
-			self::$error = self::__( 'There was a problem deleting your inventory item. Invalid permissions.' );
-
-			return FALSE;
-		}
-
 		if ( ! $inventory_id ) {
 			self::$error = self::__( 'Inventory id not set.  Item not deleted.' );
 
@@ -1560,7 +1570,7 @@ final class WPIMAdmin extends WPIMCore {
 		$category_sort_order  = 1;
 
 		if ( isset( $_POST['category_name'] ) ) {
-			$category_name        = self::request( 'category_name' );
+		  $category_name        = self::request( 'category_name' );
 			$category_description = self::request( 'category_description', '', 'textarea' );
 			$category_slug        = self::request( 'category_slug' );
 			$category_sort_order  = self::request( 'category_sort_order' );
@@ -1568,10 +1578,10 @@ final class WPIMAdmin extends WPIMCore {
 		} else if ( $category_id ) {
 			$category = self::get_category( $category_id );
 
-			$category_name        = $category->category_name;
-			$category_description = $category->category_description;
-			$category_slug        = $category->category_slug;
-			$category_sort_order  = $category->category_sort_order;
+      $category_name        = $category->category_name;
+      $category_description = $category->category_description;
+      $category_slug        = $category->category_slug;
+      $category_sort_order  = $category->category_sort_order;
 		}
 
 		?>
@@ -2036,7 +2046,7 @@ final class WPIMAdmin extends WPIMCore {
           <div class="wpim_available_display_fields">
             <div class="list list_available"><h3><?php self::_e( 'Available Fields' ); ?></h3>
               <ul id="available" class="sortable">
-				  <?php echo wp_kses( $available, 'post' ); ?>
+				  <?php esc_attr_e( $available ); ?>
                 <li style="display: none !important; data-field-id="
                 ">Shiv for jQuery to insert before</li>
               </ul>
@@ -2047,7 +2057,7 @@ final class WPIMAdmin extends WPIMCore {
                 <div class="list wpim_display_list list_selected" data-input="selected_<?php esc_attr_e( $screen ); ?>">
                   <h3><?php esc_attr_e( $titles[ $screen ] ); ?></h3>
                   <ul id="selected_listing" class="sortable">
-					  <?php echo wp_kses( $selected_fields[ $screen ], 'post' ); ?>
+					  <?php esc_attr_e( $selected_fields[ $screen ] ); ?>
                   </ul>
                   <input name="selected_<?php esc_attr_e( $screen ); ?>" type="hidden" value=""/>
                   <a href="javascript:void(0)" class="add_all"><?php self::_e( 'Add All Fields' ); ?></a>
@@ -2393,6 +2403,12 @@ final class WPIMAdmin extends WPIMCore {
 				  echo self::dropdown_array( "theme", $settings['theme'], $themes, 'wpinventory_themes' );
 				  echo '<div class="theme_screenshot"></div>';
 				  ?></td>
+            </tr>
+            <tr>
+              <th><?php self::_e( 'Use Media Fields' ); ?></th>
+              <td><?php echo self::dropdown_yesno( "use_media", $settings['use_media'] ); ?>
+                <p class="description"><?php self::_e( 'Setting this to no still allows images, just not additional media' ); ?>
+              </td>
             </tr>
             <tr>
               <th><?php self::_e( 'Items Per Page' ); ?></th>

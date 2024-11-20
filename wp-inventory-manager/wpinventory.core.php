@@ -601,7 +601,7 @@ STYLE;
 	 * @return bool
 	 */
 	public static function wpim_display_filter_form( $display ) {
-		return self::wpim_hide_if_datatable( $display );
+		return self::wpim_hide_if_datatable( FALSE, $display );
 	}
 
 	/**
@@ -612,7 +612,7 @@ STYLE;
 	 * @return bool
 	 */
 	public static function wpim_display_pagination( $display ) {
-		return self::wpim_hide_if_datatable( $display );
+		return self::wpim_hide_if_datatable( FALSE, $display );
 	}
 
 	/**
@@ -623,7 +623,7 @@ STYLE;
 	 * @return mixed
 	 */
 	public static function wpim_loop_query_args( $args ) {
-		if ( self::wpim_hide_if_datatable( FALSE, TRUE ) ) {
+		if ( self::wpim_hide_if_datatable( TRUE, FALSE ) ) {
 			$args['page']      = 0;
 			$args['page_size'] = 0;
 		}
@@ -631,7 +631,7 @@ STYLE;
 		return $args;
 	}
 
-	public static function wpim_hide_if_datatable( $default, $if_true = FALSE ) {
+	public static function wpim_hide_if_datatable( $if_true = FALSE, $default ) {
 		if ( is_admin() ) {
 			return $default;
 		}

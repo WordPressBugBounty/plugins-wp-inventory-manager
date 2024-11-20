@@ -34,8 +34,7 @@ if ( wpinventory_have_items() ) {
 	do_action( 'wpim_before_reserve_form' );
 
 	$reserve_form = wpinventory_reserve_form();
-	// wp_kses breaks this form - but all values are escaped inside the reserve-form.php file
-	echo $reserve_form;
+	echo wp_kses( $reserve_form, 'post' );
 
 	do_action( 'wpim_after_reserve_form' );
 }
