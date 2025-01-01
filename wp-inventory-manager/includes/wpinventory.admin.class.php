@@ -2046,7 +2046,7 @@ final class WPIMAdmin extends WPIMCore {
           <div class="wpim_available_display_fields">
             <div class="list list_available"><h3><?php self::_e( 'Available Fields' ); ?></h3>
               <ul id="available" class="sortable">
-				  <?php esc_attr_e( $available ); ?>
+				  <?php echo wp_kses_post($available) ?>
                 <li style="display: none !important; data-field-id="
                 ">Shiv for jQuery to insert before</li>
               </ul>
@@ -2057,7 +2057,7 @@ final class WPIMAdmin extends WPIMCore {
                 <div class="list wpim_display_list list_selected" data-input="selected_<?php esc_attr_e( $screen ); ?>">
                   <h3><?php esc_attr_e( $titles[ $screen ] ); ?></h3>
                   <ul id="selected_listing" class="sortable">
-					  <?php esc_attr_e( $selected_fields[ $screen ] ); ?>
+					  <?php echo wp_kses( $selected_fields[ $screen ], 'post' ); ?>
                   </ul>
                   <input name="selected_<?php esc_attr_e( $screen ); ?>" type="hidden" value=""/>
                   <a href="javascript:void(0)" class="add_all"><?php self::_e( 'Add All Fields' ); ?></a>

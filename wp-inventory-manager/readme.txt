@@ -97,6 +97,9 @@ A. You’re going to want to visit our website for documentation and support: ht
 
 
 == Changelog ==
+= 2.3.1 =
+* Bug fix for display settings
+
 = 2.3.0 =
 * WordPress 6.7 compatibility
 * Various bug fixes and performance improvements
