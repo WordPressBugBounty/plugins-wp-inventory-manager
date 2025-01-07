@@ -34,7 +34,7 @@ if ( wpinventory_have_items() ) {
 	do_action( 'wpim_before_reserve_form' );
 
 	$reserve_form = wpinventory_reserve_form();
-	echo wp_kses( $reserve_form, 'post' );
+	echo $reserve_form;
 
 	do_action( 'wpim_after_reserve_form' );
 }

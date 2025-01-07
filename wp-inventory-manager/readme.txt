@@ -97,6 +97,9 @@ A. You’re going to want to visit our website for documentation and support: ht
 
 
 == Changelog ==
+= 2.3.2 =
+* Bug fix for reservation form
+
 = 2.3.1 =
 * Bug fix for display settings
 
