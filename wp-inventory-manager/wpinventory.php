@@ -4,7 +4,7 @@
  * Plugin Name:    WP Inventory
  * Plugin URI:    http://www.wpinventory.com
  * Description:    Manage and display your products just like a shopping cart, but without the cart.
- * Version:        2.3.2
+ * Version:        2.3.3
  * Author:        WP Inventory Manager
  * Author URI:    http://www.wpinventory.com/
  * Text Domain:    wpinventory
@@ -33,7 +33,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 abstract class WPIMConstants {
-	const VERSION = '2.3.2';
+	const VERSION = '2.3.3';
 	const MIN_PHP_VERSION = '5.6';
 	const SHORTCODE = 'wpinventory';
 	const SETTINGS = 'wpinventory_settings';

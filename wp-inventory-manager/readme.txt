@@ -3,7 +3,7 @@ Contributors: wpinventory.com
 Tags: inventory, inventory manager
 Requires at least: 3.5.0
 Tested up to: 6.7
-Stable Tag: 2.1.0.2
+Stable Tag: 2.3.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -97,6 +97,9 @@ A. You’re going to want to visit our website for documentation and support: ht
 
 
 == Changelog ==
+= 2.3.3 =
+* Fix for display views
+
 = 2.3.2 =
 * Bug fix for reservation form
 

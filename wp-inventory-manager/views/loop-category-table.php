@@ -31,7 +31,7 @@ echo wpinventory_filter_form( 'filter=true&sort=true' );
 
 if ( ! empty( $_GET['message'] ) ) {
 	echo '<div class="wpinventory_message">';
-	echo urldecode( $_GET['message'] );
+    echo wp_kses_post(urldecode( $_GET['message'] ));
 	echo '</div>';
 }
 

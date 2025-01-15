@@ -37,7 +37,7 @@ $display_labels = wpinventory_get_config( 'display_listing_labels' );
 
 if ( ! empty( $_GET['message'] ) ) {
 	echo '<div class="wpinventory_message">';
-	echo urldecode( $_GET['message'] );
+	echo wp_kses_post(urldecode( $_GET['message'] ));
 	echo '</div>';
 }
 
