@@ -745,6 +745,10 @@ final class WPIMAdmin extends WPIMCore {
 	}
 
 	public static function wpim_manage_inventory_items() {
+		if ( ! is_admin() || ! get_current_user_id() ) {
+			return;
+		}
+
 		self::$self_url = 'admin.php?page=' . __FUNCTION__;
 
 		$action       = self::get_action();
@@ -1479,6 +1483,9 @@ final class WPIMAdmin extends WPIMCore {
 	 * Mini controller method for handling categories
 	 */
 	public static function wpim_manage_categories() {
+		if ( ! is_admin() || ! get_current_user_id() ) {
+			return;
+		}
 
 		self::$self_url = 'admin.php?page=' . __FUNCTION__;
 
@@ -1685,6 +1692,10 @@ final class WPIMAdmin extends WPIMCore {
 	 * Mini controller method for handling labels
 	 */
 	public static function wpim_manage_labels() {
+		if ( ! is_admin() || ! get_current_user_id() ) {
+			return;
+		}
+
 		self::$self_url = 'admin.php?page=' . __FUNCTION__;
 
 		$action      = self::get_action();
@@ -1812,6 +1823,9 @@ final class WPIMAdmin extends WPIMCore {
 	 * Mini controller method for handling statuses
 	 */
 	public static function wpim_manage_statuses() {
+		if ( ! is_admin() || ! get_current_user_id() ) {
+			return;
+		}
 
 		self::$self_url = 'admin.php?page=' . __FUNCTION__;
 
@@ -1957,6 +1971,10 @@ final class WPIMAdmin extends WPIMCore {
 	 * Mini controller method for handling display settings
 	 */
 	public static function wpim_manage_display() {
+		if ( ! is_admin() || ! get_current_user_id() ) {
+			return;
+		}
+
 		self::$self_url = 'admin.php?page=' . __FUNCTION__;
 
 		$action = self::get_action();
@@ -2261,6 +2279,10 @@ final class WPIMAdmin extends WPIMCore {
 	}
 
 	public static function wpim_manage_settings() {
+		if ( ! is_admin() || ! get_current_user_id() ) {
+			return;
+		}
+
 		self::$self_url = 'admin.php?page=' . __FUNCTION__;
 
 		if ( self::request( 'message' ) == 'save' ) {
