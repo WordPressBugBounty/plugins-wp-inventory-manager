@@ -862,7 +862,13 @@ final class WPIMAdmin extends WPIMCore {
 		  while ( $loop->have_items() ) {
 			  $loop->the_item();
 			  $edit_url      = ( self::check_permission( 'view_item', $wpinventory_item->inventory_id ) ) ? self::$self_url . '&action=edit&inventory_id=' . $wpinventory_item->inventory_id : '';
-			  $delete_url    = ( self::check_permission( 'edit_item', $wpinventory_item->inventory_id ) ) ? self::$self_url . '&action=delete&delete_id=' . $wpinventory_item->inventory_id : '';
+			  $delete_url    = ( self::check_permission( 'edit_item', $wpinventory_item->inventory_id ) )
+				  ? wp_nonce_url(
+					  self::$self_url . '&action=delete&delete_id=' . (int) $wpinventory_item->inventory_id,
+					  self::NONCE_ACTION,
+					  'nonce'
+				  )
+				  : '';
 			  $duplicate_url = ( self::check_permission( 'view_item', $wpinventory_item->inventory_id ) ) ? self::$self_url . '&action=duplicate&duplicate_id=' . $wpinventory_item->inventory_id : '';
 
 			  if ( ! $edit_url ) {
@@ -1460,22 +1466,23 @@ final class WPIMAdmin extends WPIMCore {
 
 	public static function delete_item() {
 		$inventory_id = (int) self::request( "delete_id" );
+		$nonce = self::request( 'nonce' );
+		if ( ! wp_verify_nonce( $nonce, self::NONCE_ACTION ) ) {
+			self::$error = self::__( 'Security failure.  Please try again.' );
+			return FALSE;
+		}
 		if ( ! $inventory_id ) {
 			self::$error = self::__( 'Inventory id not set.  Item not deleted.' );
-
 			return FALSE;
 		}
 
 		if ( ! self::$item->delete( $inventory_id ) ) {
 			self::$error = self::$item->get_message();
-
 			return FALSE;
 		}
 
 		self::$message = self::__( 'Inventory item deleted successfully.' );
-
 		self::analysis_messages();
-
 		return TRUE;
 	}
 
@@ -1483,6 +1490,7 @@ final class WPIMAdmin extends WPIMCore {
 	 * Mini controller method for handling categories
 	 */
 	public static function wpim_manage_categories() {
+
 		if ( ! is_admin() || ! get_current_user_id() ) {
 			return;
 		}
@@ -1502,12 +1510,18 @@ final class WPIMAdmin extends WPIMCore {
 		}
 
 		if ( $action == 'delete' ) {
-			if ( self::delete_category( $category_id ) ) {
+			$nonce = self::request( 'nonce' );
+			if ( ! wp_verify_nonce( $nonce, self::NONCE_ACTION ) ) {
+				self::$error = self::__( 'Security failure.  Please try again.' );
+				self::output_errors();
+				$action = '';
+			} else if ( self::delete_category( $category_id ) ) {
 				self::$message = self::__( 'Category' ) . ' ' . self::__( 'deleted successfully.' );
+				$action = '';
 			} else {
 				self::output_errors();
+				$action = '';
 			}
-			$action = '';
 		}
 
 		self::admin_heading( self::__( 'Manage Categories' ) );
@@ -1562,7 +1576,7 @@ final class WPIMAdmin extends WPIMCore {
           <td class="action">
             <a href="<?php echo self::$self_url; ?>&action=edit&category_id=<?php esc_attr_e( $category->category_id ); ?>"><?php self::_e( 'Edit' ); ?></a>
             <a class="delete"
-               href="<?php echo self::$self_url; ?>&action=delete&category_id=<?php esc_attr_e( $category->category_id ); ?>"><?php self::_e( 'Delete' ); ?></a>
+               href="<?php echo wp_nonce_url( self::$self_url . '&action=delete&category_id=' . (int) $category->category_id, self::NONCE_ACTION, 'nonce' ); ?>"><?php self::_e( 'Delete' ); ?></a>
           </td>
 			<?php } ?>
       </table>
@@ -1670,15 +1684,18 @@ final class WPIMAdmin extends WPIMCore {
 
 	public static function delete_category() {
 		$category_id = (int) self::request( "category_id" );
+		$nonce = self::request( 'nonce' );
+		if ( ! wp_verify_nonce( $nonce, self::NONCE_ACTION ) ) {
+			self::$error = self::__( 'Security failure.  Please try again.' );
+			return FALSE;
+		}
 		if ( ! $category_id ) {
 			self::$error = self::__( 'Category id not set.  Category not deleted.' );
-
 			return FALSE;
 		}
 
 		if ( ! self::$category->delete( $category_id ) ) {
 			self::$error = self::$category->get_message();
-
 			return FALSE;
 		}
 
@@ -1741,6 +1758,7 @@ final class WPIMAdmin extends WPIMCore {
              href="<?php echo self::$self_url; ?>&action=edit"><?php self::_e( 'Edit Labels' ); ?></a>
 		<?php } ?>
       <form method="post" action="<?php echo self::$self_url; ?>">
+		  <?php if ( $edit ) { wp_nonce_field( self::NONCE_ACTION, 'nonce' ); } ?>
 		  <?php if ( $edit ) { ?>
             <input type="hidden" name="action" value="save"/>
             <p class="submit">
@@ -1798,6 +1816,11 @@ final class WPIMAdmin extends WPIMCore {
 	}
 
 	public static function save_labels() {
+		$nonce = self::request( 'nonce' );
+		if ( ! wp_verify_nonce( $nonce, self::NONCE_ACTION ) ) {
+			self::$error = self::__( 'Security failure.  Please try again.' );
+			return FALSE;
+		}
 		$labels          = self::get_labels();
 		$is_used         = (array) self::request( "is_used" );
 		$is_numeric      = (array) self::request( "is_numeric" );
@@ -1864,6 +1887,7 @@ final class WPIMAdmin extends WPIMCore {
              href="<?php echo self::$self_url; ?>&action=edit"><?php self::_e( 'Edit Statuses' ); ?></a>
 		<?php } ?>
       <form method="post" action="<?php echo self::$self_url; ?>">
+		  <?php if ( $edit ) { wp_nonce_field( self::NONCE_ACTION, 'nonce' ); } ?>
 		  <?php if ( $edit ) { ?>
             <input type="hidden" name="action" value="save"/>
             <p class="submit">
@@ -1944,6 +1968,11 @@ final class WPIMAdmin extends WPIMCore {
 	}
 
 	public static function save_statuses() {
+		$nonce = self::request( 'nonce' );
+		if ( ! wp_verify_nonce( $nonce, self::NONCE_ACTION ) ) {
+			self::$error = self::__( 'Security failure.  Please try again.' );
+			return FALSE;
+		}
 		$status_name        = self::request( "status_name" );
 		$status_description = self::request( "status_description", '', 'textarea' );
 		$is_hidden          = self::request( "is_active" );
@@ -2055,6 +2084,7 @@ final class WPIMAdmin extends WPIMCore {
 
 		?>
       <form method="post" action="<?php echo self::$self_url; ?>">
+		<?php wp_nonce_field( self::NONCE_ACTION, 'nonce' ); ?>
         <div class="submit">
           <a href="<?php echo self::$self_url; ?>" class="button"><?php _e( 'Cancel' ); ?></a>
           <input type="submit" name="save" value="<?php self::_e( 'Save Settings' ); ?>" class="button-primary"/>
@@ -2252,6 +2282,11 @@ final class WPIMAdmin extends WPIMCore {
 	}
 
 	public static function save_display() {
+		$nonce = self::request( 'nonce' );
+		if ( ! wp_verify_nonce( $nonce, self::NONCE_ACTION ) ) {
+			self::$error = self::__( 'Security failure.  Please try again.' );
+			return FALSE;
+		}
 		$screens = self::get_display_screens();
 
 		foreach ( $screens AS $screen ) {
@@ -2290,6 +2325,16 @@ final class WPIMAdmin extends WPIMCore {
 		}
 
 		self::admin_heading( self::__( 'Manage Settings' ) );
+
+		$action = self::get_action();
+		if ( $action === 'save' ) {
+			if ( self::save_settings() ) {
+				self::$message = self::__( 'Settings' ) . ' ' . self::__( 'saved successfully.' );
+			} else {
+				self::output_errors();
+			}
+		}
+
 		self::edit_settings();
 		self::admin_footer();
 	}

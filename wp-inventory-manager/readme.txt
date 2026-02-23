@@ -97,6 +97,9 @@ A. You’re going to want to visit our website for documentation and support: ht
 
 
 == Changelog ==
+= 2.3.5 =
+* Security improvements
+
 = 2.3.4 =
 * Bug fixes and security improvements
 

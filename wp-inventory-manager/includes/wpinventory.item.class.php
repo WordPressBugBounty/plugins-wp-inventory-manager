@@ -671,7 +671,12 @@ class WPIMItem extends WPIMDB {
 
 		do_action( 'wpim_pre_delete_item', $inventory_id );
 
-		$success = $this->wpdb->query( $this->wpdb->prepare( "DELETE FROM " . $this->inventory_table . ' WHERE inventory_id = %d', $inventory_id . ' LIMIT 1' ) );
+		$success = $this->wpdb->query(
+			$this->wpdb->prepare(
+				"DELETE FROM {$this->inventory_table} WHERE inventory_id = %d LIMIT 1",
+				$inventory_id
+			)
+		);
 
 		if ( $success ) {
 			$images_success = $this->delete_images( $inventory_id );
