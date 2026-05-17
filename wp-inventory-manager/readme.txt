@@ -1,23 +1,40 @@
 === WP Inventory Manager ===
-Contributors: wpinventory.com
-Tags: inventory, inventory manager
+Contributors: chuck1982
+Tags: inventory, stock management, product catalog, inventory manager, warehouse
 Requires at least: 3.5.0
 Tested up to: 6.7
-Stable Tag: 2.3.3
+Stable Tag: 2.3.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
+== Short Description ==
+
+The most flexible inventory and catalog management plugin for WordPress. Track products, equipment, parts, artwork, vehicles, or any collection.
+
 == Description ==
 
-Manage products, equipment, and more in your WordPress website.  Perfect for car dealers, art collectors, parts dealers, etc.
+WP Inventory Manager is the most flexible inventory and catalog management plugin for WordPress. Track products, equipment, parts, artwork, vehicles, or any collection — directly from your WordPress dashboard.
 
-= Free Version =
-This is the free version of plugin, which comes with an expansive array of inventory management feature.
+Trusted by 122,000+ websites since 2013, across retail, manufacturing, nonprofits, and more.
 
-= Pro Version =
-* You may purchase the Pro version of WP Inventory by going to the [WP Inventory Pro Page](https://www.wpinventory.com/wp-inventory-license/)
+= What You Can Do =
+* Add unlimited inventory items with custom fields, images, and categories
+* Display your inventory on any page using simple shortcodes
+* Let visitors search, filter, and browse your catalog
+* Track quantity, status, pricing, and custom attributes
+* Send low-stock alerts and reservation requests
+* Fully customize labels, fields, and display templates
+* Multilingual support (Arabic, Chinese, Dutch, French, German, Hindi, Russian, Spanish)
 
-= Add-Ons Available with WP Inventory Pro  =
+= Perfect For =
+Car dealers, art galleries, parts suppliers, equipment rental, nonprofits managing assets, libraries, museums, real estate, and any business needing a flexible product catalog.
+
+= Pro Add-Ons =
+Extend with powerful add-ons: Advanced Search, Import/Export, Reserve Cart, Location Manager, Bulk Item Manager, Ledger, Notifications, and Advanced User Control.
+
+Browse and purchase add-ons at [https://www.wpinventory.com](https://www.wpinventory.com/)
+
+= Add-Ons Available with WP Inventory Pro =
 * [Advanced Inventory Manager](https://www.wpinventory.com/downloads/add-advanced-inventory-manager/)
 * [Import and Export](https://www.wpinventory.com/downloads/wp-inventory-import-and-export/)
 * [Ledger](https://www.wpinventory.com/downloads/wp-inventory-ledger/)
@@ -28,31 +45,12 @@ This is the free version of plugin, which comes with an expansive array of inven
 * [Advanced Search](https://www.wpinventory.com/downloads/add-on-advanced-search/)
 * [Per Item Low Quantity Notifications](https://www.wpinventory.com/downloads/add-on-notifications/)
 
+[youtube https://www.youtube.com/watch?v=3a72VtNFmWw]
+
 = Support =
 **All support requests are handled through our website.**
 If you have a support request, we are **happy to help**, but you need to submit your request here:
-[https://www.wpinventory.com/support/](https://www.wpinventory.com/support/) (This is the only way we are notified of your support request). And as noted above, support is for licensed users.
-
-* Supports multiple categories
-* Fully customizable labels
-* Templating system makes customization easy
-* Choose what fields you want to use and label them as needed
-* Uses separate database tables for faster database access
-* Developer friendly with hooks, filters, and utility functions
-
-[youtube https://www.youtube.com/watch?v=3a72VtNFmWw]
-
-
-= Tested on =
-* Mac Firefox 	:)
-* Mac Safari 	:)
-* Mac Chrome	:)
-* PC Safari 	:)
-* PC Chrome	    :)
-* PC Firefox	:)
-* iPhone Safari :)
-* iPad Safari 	:)
-* PC ie7		:S
+[https://www.wpinventory.com/support/](https://www.wpinventory.com/support/) (This is the only way we are notified of your support request).
 
 = Website =
 [https://www.wpinventory.com](https://www.wpinventory.com/)
@@ -60,7 +58,6 @@ If you have a support request, we are **happy to help**, but you need to submit 
 = Documentation =
 * [Getting Started](https://www.wpinventory.com/wp-inventory-documentation/)
 * [Support](https://www.wpinventory.com/support/)
-
 
 = Bug Submission and Support =
 [https://www.wpinventory.com/support/](https://www.wpinventory.com/support/)
@@ -97,6 +94,10 @@ A. You’re going to want to visit our website for documentation and support: ht
 
 
 == Changelog ==
+= 2.3.6 =
+* Accessibility: add for/id association to search, status, and sort labels in filter form (WCAG 2.1 SC 1.3.1 and 4.1.2)
+* Fix item description HTML formatting being stripped on save
+
 = 2.3.5 =
 * Security improvements
 
