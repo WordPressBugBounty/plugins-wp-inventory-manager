@@ -1,92 +1,168 @@
 === WP Inventory Manager ===
 Contributors: chuck1982
-Tags: inventory, stock management, product catalog, inventory manager, warehouse
+Tags: inventory, inventory manager, product catalog, stock management, woocommerce alternative
 Requires at least: 3.5.0
-Tested up to: 6.7
-Stable Tag: 2.3.6
+Tested up to: 7.0
+Stable Tag: 2.3.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-== Short Description ==
-
-The most flexible inventory and catalog management plugin for WordPress. Track products, equipment, parts, artwork, vehicles, or any collection.
+Manage inventory in WordPress without WooCommerce. Unlimited items, custom fields, shortcode display. Trusted by 120,000+ sites since 2013.
 
 == Description ==
 
-WP Inventory Manager is the most flexible inventory and catalog management plugin for WordPress. Track products, equipment, parts, artwork, vehicles, or any collection — directly from your WordPress dashboard.
+🚀 **Manage inventory in WordPress. No WooCommerce required.**
 
-Trusted by 122,000+ websites since 2013, across retail, manufacturing, nonprofits, and more.
+WP Inventory Manager is the most flexible inventory and catalog management plugin for WordPress. Whether you are tracking equipment, parts, artwork, vehicles, or any collection, you can manage and display it all directly from your WordPress dashboard - without installing WooCommerce.
 
-= What You Can Do =
-* Add unlimited inventory items with custom fields, images, and categories
-* Display your inventory on any page using simple shortcodes
-* Let visitors search, filter, and browse your catalog
+Trusted by 120,000+ websites since 2013, across retail, manufacturing, nonprofits, education, and more.
+
+[Learn more at wpinventory.com](https://www.wpinventory.com/)
+
+= 💡 Why WP Inventory Manager? =
+
+Most inventory plugins for WordPress are built on top of WooCommerce, which adds bloat, complexity, and features you do not need if you are not running an e-commerce store. WP Inventory Manager works independently, keeping your site fast and simple.
+
+No WooCommerce. No subscriptions required to get started. No item limits.
+
+= ✅ What You Can Do =
+
+* Add **unlimited inventory items** with custom fields, images, and categories
+* Display your inventory on any page using **simple shortcodes**
+* Let visitors **search, filter, and browse** your catalog on the front end
 * Track quantity, status, pricing, and custom attributes
-* Send low-stock alerts and reservation requests
+* Send **low-stock alerts** and reservation requests by email
 * Fully customize labels, fields, and display templates
-* Multilingual support (Arabic, Chinese, Dutch, French, German, Hindi, Russian, Spanish)
+* **Multilingual support**: Arabic, Chinese, Dutch, French, German, Hindi, Russian, Spanish
 
-= Perfect For =
-Car dealers, art galleries, parts suppliers, equipment rental, nonprofits managing assets, libraries, museums, real estate, and any business needing a flexible product catalog.
+= 🏭 Use Cases =
 
-= Pro Add-Ons =
-Extend with powerful add-ons: Advanced Search, Import/Export, Reserve Cart, Location Manager, Bulk Item Manager, Ledger, Notifications, and Advanced User Control.
+**Equipment Rental**
+Track what is out, what is coming back, and what is available - all from your WordPress dashboard. Set up reservation workflows, availability tracking, and return management without a separate system.
+[See the equipment rental use case](https://www.wpinventory.com/use-cases/equipment-rental/)
 
-Browse and purchase add-ons at [https://www.wpinventory.com](https://www.wpinventory.com/)
+**Parts Suppliers and Manufacturers**
+Build a searchable parts catalog with custom fields for SKU, specs, compatibility, and stock levels. Let customers or staff find what they need instantly.
+[See the parts supplier use case](https://www.wpinventory.com/use-cases/parts-suppliers/)
 
-= Add-Ons Available with WP Inventory Pro =
-* [Advanced Inventory Manager](https://www.wpinventory.com/downloads/add-advanced-inventory-manager/)
-* [Import and Export](https://www.wpinventory.com/downloads/wp-inventory-import-and-export/)
-* [Ledger](https://www.wpinventory.com/downloads/wp-inventory-ledger/)
-* [Reserve Cart](https://www.wpinventory.com/downloads/add-reserve-cart/)
-* [Bulk Item Manager](https://www.wpinventory.com/downloads/add-on-bulk-item-manager/)
-* [Advanced User Control](https://www.wpinventory.com/downloads/advanced-user-control/)
-* [Location Manager](https://www.wpinventory.com/downloads/add-on-locations-manager/)
-* [Advanced Search](https://www.wpinventory.com/downloads/add-on-advanced-search/)
-* [Per Item Low Quantity Notifications](https://www.wpinventory.com/downloads/add-on-notifications/)
+**Museums, Galleries and Collections**
+Create a searchable digital catalog of artwork, artifacts, or collectibles. Add images, descriptions, provenance, and custom metadata for each item.
+[See the galleries use case](https://www.wpinventory.com/use-cases/galleries/)
 
-[youtube https://www.youtube.com/watch?v=3a72VtNFmWw]
+**Internal Asset Tracking**
+Track company equipment, tools, or assets across departments or locations. Know what you own, where it is, and who has it.
+[See the asset tracking use case](https://www.wpinventory.com/use-cases/internal-asset-tracking/)
 
-= Support =
+= 🆓 Free Version =
+
+The core plugin is free with no item limits. You get:
+
+* Unlimited inventory items
+* Custom categories and tags
+* Shortcode display on any page
+* Frontend search and sort
+* Admin dashboard management
+
+= ⭐ Pro Version =
+
+Unlock plugin updates and priority support with a Pro license.
+[Get WP Inventory Pro](https://www.wpinventory.com/)
+
+= 🔌 Add-Ons Available with WP Inventory Pro =
+
+* Advanced Inventory Manager - Create multiple inventory types, each with their own custom fields
+* Advanced Search - Filter inventory by any field with a frontend search widget
+* Import and Export - Bulk import and export via CSV
+* Reserve Cart - Let visitors reserve multiple items at once
+* Location Manager - Manage inventory across multiple locations
+* Ledger - Track inventory movement, generate PDF invoices, view history
+* Per Item Low Quantity Notifications - Email alerts for low stock and inventory changes
+* Advanced User Control - Restrict access by user role, enable frontend submission
+* Bulk Item Manager - Update hundreds of items at once
+
+[Browse all add-ons](https://www.wpinventory.com/add-ons/)
+
+= 🛟 Support =
+
 **All support requests are handled through our website.**
 If you have a support request, we are **happy to help**, but you need to submit your request here:
 [https://www.wpinventory.com/support/](https://www.wpinventory.com/support/) (This is the only way we are notified of your support request).
 
-= Website =
+= 🌐 Website =
 [https://www.wpinventory.com](https://www.wpinventory.com/)
 
-= Documentation =
-* [Getting Started](https://www.wpinventory.com/wp-inventory-documentation/)
+= 📖 Documentation =
+* [Getting Started](https://www.wpinventory.com/documentation/user/)
 * [Support](https://www.wpinventory.com/support/)
 
-= Bug Submission and Support =
-[https://www.wpinventory.com/support/](https://www.wpinventory.com/support/)
+---
 
 == Installation ==
 
-1. Upload ‘wpinventory’ to the '/wp-content/plugins/' directory
+1. Upload 'wpinventory' to the '/wp-content/plugins/' directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
-3. Click on the new menu item “WP Inventory” and follow the fast-start directions.
-4. Watch this tutorial video to get your inventory up and running in under 10 minutes:  https://www.youtube.com/watch?v=3a72VtNFmWw
+3. Click on the new menu item "WP Inventory" and follow the fast-start directions
+4. Watch this tutorial video to get your inventory up and running in under 10 minutes: https://www.youtube.com/watch?v=3a72VtNFmWw
 
+Full setup documentation: [https://www.wpinventory.com/documentation/user/](https://www.wpinventory.com/documentation/user/)
 
 == Frequently Asked Questions ==
 
-= Q. I have a question =
-A. You’re going to want to visit our website for documentation and support: https://www.wpinventory.com/documentation/
+= Does this plugin work without WooCommerce? =
 
+Yes. WP Inventory Manager is completely independent of WooCommerce. You do not need WooCommerce installed. It is designed specifically for businesses that need inventory management without an e-commerce store.
+
+= Is there a free version? =
+
+Yes. The core plugin is free forever with no item limits. You can add unlimited inventory items, create custom categories, display inventory using shortcodes, and manage everything from your WordPress dashboard at no cost.
+
+= Can I display inventory on the front end of my website? =
+
+Yes. Use the [wpinventory] shortcode on any page or post to display a browsable, searchable inventory list. Visitors can search, filter, and sort items without any coding required.
+
+= Can customers or visitors reserve or request items? =
+
+Yes, with the [Reserve Cart add-on](https://www.wpinventory.com/downloads/add-reserve-cart/). It lets visitors add multiple items to a reservation request, which is sent to you by email. It is a request and inquiry workflow, not a payment system.
+
+= Does it support multiple locations? =
+
+Yes, with the [Location Manager add-on](https://www.wpinventory.com/downloads/add-on-locations-manager/). You can assign inventory items to one or multiple locations and filter by location on the front end.
+
+= Can I import my existing inventory via CSV? =
+
+Yes, with the [Import and Export add-on](https://www.wpinventory.com/downloads/wp-inventory-import-and-export/). You can bulk import items from a CSV file, map columns to custom fields, and export your inventory at any time.
+
+= Will it work with my WordPress theme? =
+
+Yes. WP Inventory Manager is compatible with any WordPress theme. The frontend display uses your theme's styles by default, and you can customize the appearance using CSS or the built-in display settings.
+
+= Does it support custom fields? =
+
+Yes. You can create unlimited custom fields for your inventory items - text, number, date, dropdown, checkbox, and more. Each field can be shown or hidden on the frontend.
+
+= Is it compatible with the latest version of WordPress? =
+
+Yes. The plugin has been tested and confirmed working on WordPress 7.0 and is fully compatible with all recent WordPress releases.
+
+= How do I get support? =
+
+Submit your support request at [https://www.wpinventory.com/support/](https://www.wpinventory.com/support/). This is the only way we are notified. Please do not use the WordPress.org support forum for paid add-on issues.
+
+= Where can I find documentation? =
+
+Full documentation is available at [https://www.wpinventory.com/documentation/user/](https://www.wpinventory.com/documentation/user/).
 
 == Screenshots ==
 
 1. Dashboard list of items.
 
-2. Inventory categories.  Add as many as you like.
+2. Inventory categories. Add as many as you like.
 
-3. Status page.  Useful to help you understand the health of your system.  Check this page if you are having problems.
+3. Status page. Useful to help you understand the health of your system. Check this page if you are having problems.
 
-4. Display settings.  Set the fields that are visible on every view.
+4. Display settings. Set the fields that are visible on every view.
 
-5. Settings page tabs.  Navigate this section to properly configure your WP Inventory Manager.
+5. Settings page tabs. Navigate this section to properly configure your WP Inventory Manager.
 
 6. Send messages via the built in support tab.
 
@@ -94,12 +170,14 @@ A. You’re going to want to visit our website for documentation and support: ht
 
 
 == Changelog ==
+= 2.3.7 =
+* New: opt-in notice on activation to receive security updates and release notes
+
 = 2.3.6 =
-* Accessibility: add for/id association to search, status, and sort labels in filter form (WCAG 2.1 SC 1.3.1 and 4.1.2)
-* Fix item description HTML formatting being stripped on save
+* Bug fixes and security improvements
 
 = 2.3.5 =
-* Security improvements
+* Bug fixes and security improvements
 
 = 2.3.4 =
 * Bug fixes and security improvements
@@ -158,11 +236,11 @@ A. You’re going to want to visit our website for documentation and support: ht
 = 2.0.4 =
 *07/10/2020
     * Improve shortcodes class to be extended / used by add-ons.
-    * Refactor the 'note' field into default filter.  Fixed note not showing in Reserve Cart.
+    * Refactor the 'note' field into default filter. Fixed note not showing in Reserve Cart.
 
 = 2.0.3 =
 * 06/24/2020
-    * Updated shortcode separator from comma (,) to pipe (|).  This causes less conflicts overall as comma is more common in field names.  Particularly this revision was brought on so that Advanced Search Filter can properly search fields.
+    * Updated shortcode separator from comma (,) to pipe (|). This causes less conflicts overall as comma is more common in field names. Particularly this revision was brought on so that Advanced Search Filter can properly search fields.
 
 = 2.0.2 =
 * 06/24/2020
@@ -170,7 +248,7 @@ A. You’re going to want to visit our website for documentation and support: ht
     * For the Reserve Cart add on, we added functionality to hook into so a view cart button could be added in the listing page.
     * Shortcode option added to hide the "back" button on details.
     * UK/US/International date formats are now options to choose from.
-    * Back button on detail page use to be javascript.  Reworked to use wp_get_referer().
+    * Back button on detail page use to be javascript. Reworked to use wp_get_referer().
     * When doing a search in the filter by category, the results displayed two add to cart options when Reserve Cart is active.
     * Enhanced the drag and drop functionality of the display settings in the back end.
     * Category names are now being honored in search text.
@@ -353,7 +431,7 @@ A. You’re going to want to visit our website for documentation and support: ht
 
 = 1.6.6 =
 * 05/07/2018
-    * Include slideshow in core plugin.  Can be disabled in settings.
+    * Include slideshow in core plugin. Can be disabled in settings.
     * Include robust default items.
 
 = 1.6.5 =
@@ -370,7 +448,7 @@ A. You’re going to want to visit our website for documentation and support: ht
 
 = 1.6.2 =
 * 02/28/2018
-    * Add support for powerful / flexible "where" argument in shortcodes.  Also utilized by Bulk Item Manager for robust searching of items.
+    * Add support for powerful / flexible "where" argument in shortcodes. Also utilized by Bulk Item Manager for robust searching of items.
 
 = 1.6.1 =
 * 02/13/2018
@@ -523,7 +601,7 @@ A. You’re going to want to visit our website for documentation and support: ht
     * Add several new actions
     * Add labels information for immutable labels (status, etc)
     * Fix bug in Media Upload
-    * Modify views to include filters (loop-all-table.php, single-loop-all-table.php, single-loop-search.php, single-loop-all.php, single-loop-category.php)
+    * Modify views to include filters
 
 = 1.2.9 =
 * 04/05/2016
@@ -550,10 +628,12 @@ A. You’re going to want to visit our website for documentation and support: ht
     * Fix issue where status filter in admin not working
 
 = 1.2.4 =
-* 02/13/2016 - Added actions in admin "settings" interface for each section (wpim_edit_settings_general, wpim_edit_settings_date, wpim_edit_settings_currency, etc)
+* 02/13/2016
+    * Added actions in admin "settings" interface for each section
 
 = 1.2.3 =
-* 01/23/2016 - Fix bug where category name not displaying
+* 01/23/2016
+    * Fix bug where category name not displaying
 
 = 1.2.2 =
 * 01/12/2016
@@ -561,15 +641,11 @@ A. You’re going to want to visit our website for documentation and support: ht
     * Beta - add inventory results into WP core search results
     * Added setting to display media in new window (or same window)
     * Added setting to make images clickable (or not), and to open in new window (or same window)
-    * Added clean theme to use site theme's colors, fonts - (non-table listing only)
+    * Added clean theme to use site theme's colors, fonts
     * Added loop-search.php template
     * Added single-loop-search.php template
     * Added display settings for Search Results
     * Added setting for search results link-to page
-    * Added new action: do_action('wpim_core_loaded'); // no parameters.  Triggered after Core class constructed
-    * Added 'set_items' and 'rewind_items' functionality to WPIM Loop
-    * Added 'additional class' parameter to wpinventory_get_class() function
-    * Added support for 'post_id' in wpinventory_get_permalink functions
 
 = 1.2.1 =
 * 12/11/2015
@@ -578,12 +654,14 @@ A. You’re going to want to visit our website for documentation and support: ht
     * Fix issue where license number doesn't appear in settings
 
 = 1.2.0 =
-* 09/07/2015 - Update to WP 4.3 preferred Widget Constructor method
-* 09/14/2015 - Add Reserve send Confirmation functionality
+* 09/07/2015
+    * Update to WP 4.3 preferred Widget Constructor method
+    * Add Reserve send Confirmation functionality
 
 = 1.1.9 =
-* 08/11/2015 - Change from category to label in category dropdown on front-end
-* 08/21/2015 - Adjust language loading path
+* 08/11/2015
+    * Change from category to label in category dropdown on front-end
+    * Adjust language loading path
 
 = 1.1.8 =
 * 07/16/2015
@@ -592,7 +670,8 @@ A. You’re going to want to visit our website for documentation and support: ht
     * Cause sorting by date to list most recent at top
 
 = 1.1.7 =
-* 06/29/2015 - Fix bug with widget
+* 06/29/2015
+    * Fix bug with widget
 
 = 1.1.6 =
 * 06/20/2015
@@ -602,17 +681,13 @@ A. You’re going to want to visit our website for documentation and support: ht
     * Improve reserve e-mails
 
 = 1.1.5 =
-* 06/10/2015 - Fix bug in loop templates attempting to load single-shortcode instead of single-item
+* 06/10/2015
+    * Fix bug in loop templates attempting to load single-shortcode instead of single-item
 
 = 1.1.4 =
 * 05/12/2015
     * Fix date formatting for updated / added date
-    * Added new filter:  apply_filters('wpim_get_config', $setting, $field);
-    * usage: add_filter('wpim_get_config', 10, 2); // Two parameters, setting & field
-    * added new filter: return apply_filters( 'wpim_check_permission', TRUE, $type, $inventory_item );
-    * usage: add_filter('wpim_check_permission', 10, 3); // Three parameters, value, $type (edit_item or save_item), $inventory_item
-    * added new filter: $args = apply_filters('wpim_query_item_args', $args);
-    * usage: add_filter('wpim_query_item_args'); // The args are the only parameter
+    * Added new filters and hooks
 
 = 1.1.3 =
 * 05/04/2015
@@ -631,71 +706,18 @@ A. You’re going to want to visit our website for documentation and support: ht
     * Add support for placeholder image
     * Improve reserve form extensibility and data capture
     * Add hooks / actions in various places
-    * Build out "user_can_edit" public function
-    * Improve comments in code
 
 = 1.0.9 =
-* 02/13/2015 - Fix minor bug with sort-by dropdown including hidden fields
+* 02/13/2015
+    * Fix minor bug with sort-by dropdown including hidden fields
 
 = 1.0.8 =
-* 02/04/2015 - Convert tables to utf8
+* 02/04/2015
+    * Convert tables to utf8
 
-= 1.0.7 =
-* 01/26/2015 - License activation debugging output
-
-= 1.0.6 =
-* 01/26/2015 - License activation debugging output
-
-= 1.0.5 =
-* 01/19/2015 - License activation improvement
-
-= 1.0.4 =
-* 12/05/2014 - Fix bug with special chars on form inputs
-
-= 1.0.3	=
-* 10/27/2014 - Improvements to license system
-
-= 1.0.2	=
-* 11/26/2014 - Minor bug fixes - media not appearing on front-end, improvements to css classes
-
-= 1.0.1	=
-* 11/18/2014 - Implement automatic updates
-
-= 1.0.0	=
-* 11/18/2014 - Implement license system
-
-= 0.7.9	=
-* 11/11/2014 - Enhancements to sort by category
-
-= 0.7.8	=
-* 10/08/2014 - Improvements to add-on system
-
-= 0.7.7	=
-* 09/29/2014 - Added shortcode atts: category_name, category_slug, user_id
-
-= 0.7.6	=
-* 09/25/2014 - Fix bug with permalinks setting not being honored
-
-= 0.7.5	=
-* 09/23/2014 - Fix bug with category name display, add wpim_use_currency_formats filter
-
-= 0.7.4	=
-* 09/17/2014 - Improved css classes, added class function wpinventory_label_class()
-
-= 0.7.3	=
-* 09/10/2014 - Improve css classes throughout front-end views
-
-= 0.7.2	=
-* 08/29/2014 - Bug fixes (edit category, error on certain views)
-
-= 0.7.1 =
-* Extend hooks for add-ons, improve internationalization.
-
-= 0.6.3 =
-* Bug Fixes
-
-= 0.5.0 =
-* WP Inventory
+= 1.0.0 =
+* 11/18/2014
+    * Initial release with license system
 
 == Upgrade Notice ==
 
