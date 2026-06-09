@@ -1152,8 +1152,8 @@ function wpinventory_filter_form( $args = NULL ) {
 
 	if ( $search ) {
 		$form .= '<span class="search">' . PHP_EOL;
-		$form .= ( $search_label ) ? '<label for="wpinventory_search">' . esc_attr( $search_label ) . '</label>' : '';
-		$form .= '<input type="text" id="wpinventory_search" name="inventory_search" value="' . esc_attr( stripslashes( $inventory_search ) ) . '" />';
+		$form .= ( $search_label ) ? '<label>' . esc_attr( $search_label ) . '</label>' : '';
+		$form .= '<input type="text" name="inventory_search" value="' . esc_attr( stripslashes( $inventory_search ) ) . '" />';
 		$form .= '</span>' . PHP_EOL;
 	}
 
@@ -1161,8 +1161,8 @@ function wpinventory_filter_form( $args = NULL ) {
 
 	if ( $status ) {
 		$form .= '<span class="status">';
-		$form .= ( $status_label ) ? '<label for="inventory_status">' . $status_label . '</label>' : '';
-		$form .= '<select id="inventory_status" name="inventory_status">' . PHP_EOL;
+		$form .= ( $status_label ) ? '<label>' . $status_label . '</label>' : '';
+		$form .= '<select name="inventory_status">' . PHP_EOL;
 		$form .= ( ! $status_label || $status_all ) ? '<option value="">' . $WPIMLoop->__( 'Status...' ) . '</option>' . PHP_EOL : '';
 
 		$statuses = $WPIMLoop->get_statuses();
@@ -1193,8 +1193,8 @@ function wpinventory_filter_form( $args = NULL ) {
 		}
 
 		$form .= '<span class="sort">';
-		$form .= ( $sort_label ) ? '<label for="inventory_sort_by">' . esc_attr( $sort_label ) . '</label>' : '';
-		$form .= '<select id="inventory_sort_by" name="inventory_sort_by">' . PHP_EOL;
+		$form .= ( $sort_label ) ? '<label>' . esc_attr( $sort_label ) . '</label>' : '';
+		$form .= '<select name="inventory_sort_by">' . PHP_EOL;
 		$form .= ( ! $sort_label ) ? '<option value="">' . $WPIMLoop->__( 'Sort By...' ) . '</option>' . PHP_EOL : '';
 
 		foreach ( $fields AS $field => $label ) {

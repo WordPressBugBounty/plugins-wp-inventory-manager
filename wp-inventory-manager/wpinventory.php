@@ -4,7 +4,7 @@
  * Plugin Name:    WP Inventory
  * Plugin URI:    http://www.wpinventory.com
  * Description:    Manage and display your products just like a shopping cart, but without the cart.
- * Version:        2.3.7
+ * Version:        2.4.0
  * Author:        WP Inventory Manager
  * Author URI:    http://www.wpinventory.com/
  * Text Domain:    wpinventory
@@ -32,8 +32,59 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+if ( ! function_exists( 'wpim_fs' ) ) {
+	// Create a helper function for easy SDK access.
+	function wpim_fs() {
+		global $wpim_fs;
+
+		if ( ! isset( $wpim_fs ) ) {
+			// Include Freemius SDK.
+			require_once dirname( __FILE__ ) . '/vendor/freemius/start.php';
+
+			$wpim_fs = fs_dynamic_init( array(
+				'id'               => '31646',
+				'slug'             => 'wp-inventory-manager',
+				'type'             => 'plugin',
+				'public_key'       => 'pk_4043b83f03bdb478d66c2531e0877',
+				'is_premium'       => false,
+				'has_addons'       => false,
+				'has_paid_plans'   => true,
+				'is_org_compliant' => true,
+				'menu'             => array(
+					'slug'       => 'wpinventory',
+					'first-path' => 'admin.php?page=wpinventory',
+					'account'    => false,
+					'contact'    => true,
+					'support'    => true,
+					'pricing'    => true,
+				),
+			) );
+		}
+
+		return $wpim_fs;
+	}
+
+	// Init Freemius.
+	wpim_fs();
+
+	// Point the Upgrade CTA to the EDD checkout on wpinventory.com.
+	wpim_fs()->add_filter( 'pricing_url', function() {
+		return 'https://www.wpinventory.com/wp-inventory-license/';
+	} );
+
+	// Skip opt-in modal for users who already consented via the legacy system.
+	$wpim_existing = get_option( 'wpim_registered' );
+	if ( ! empty( $wpim_existing['email'] ) ) {
+		wpim_fs()->skip_connection( null, true );
+	}
+	unset( $wpim_existing );
+
+	// Signal that SDK was initiated.
+	do_action( 'wpim_fs_loaded' );
+}
+
 abstract class WPIMConstants {
-	const VERSION = '2.3.7';
+	const VERSION = '2.4.0';
 	const MIN_PHP_VERSION = '5.6';
 	const SHORTCODE = 'wpinventory';
 	const SETTINGS = 'wpinventory_settings';
@@ -59,7 +110,7 @@ function wp_inventory_launch() {
 
 	define('WPIM_PLUGIN_FILE', plugin_basename(__FILE__));
 	require_once 'wpinventory.core.php';
-	require_once 'includes/wpinventory.registration.php';
+
 	WPInventoryInit::initialize();
 }
 

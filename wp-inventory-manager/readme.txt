@@ -3,7 +3,7 @@ Contributors: chuck1982
 Tags: inventory, inventory manager, product catalog, stock management, woocommerce alternative
 Requires at least: 3.5.0
 Tested up to: 7.0
-Stable Tag: 2.3.7
+Stable Tag: 2.4.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -170,6 +170,10 @@ Full documentation is available at [https://www.wpinventory.com/documentation/us
 
 
 == Changelog ==
+= 2.4.0 =
+* Improved plugin analytics and opt-in flow via Freemius SDK
+* Removed legacy registration system
+
 = 2.3.7 =
 * New: opt-in notice on activation to receive security updates and release notes
 
