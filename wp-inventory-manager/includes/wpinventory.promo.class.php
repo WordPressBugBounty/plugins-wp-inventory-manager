@@ -98,7 +98,24 @@ class WPIMPromo extends WPIMCore {
 			return;
 		}
 
-		$this->dismissed = sanitize_text_field( $_GET['dismiss'] );
+		$dismiss = sanitize_text_field( wp_unslash( $_GET['dismiss'] ) );
+
+		/**
+		 * Only accept keys we actually promote.
+		 *
+		 * The value is interpolated into a persisted settings key below
+		 * ("dismissed_<value>"), so without this check any request carrying
+		 * ?dismiss=... on a WP Inventory admin screen writes an arbitrary key
+		 * into the options array. Every real dismissal link is built from a
+		 * promo key (see the "dismiss-promo" link in open_promo_markup), and
+		 * handle_dismissal() runs before ensure_can_promote() prunes the list,
+		 * so all legitimate keys are present here.
+		 */
+		if ( ! isset( $this->promote[ $dismiss ] ) ) {
+			return;
+		}
+
+		$this->dismissed = $dismiss;
 
 		self::$config->set( "dismissed_{$this->dismissed}", TRUE );
 	}
@@ -212,7 +229,7 @@ class WPIMPromo extends WPIMCore {
 		echo '<li><a href="https://www.wpinventory.com/downloads/add-reserve-cart/" target="_blank">Reserve Cart</a></li>';
 		echo '</ul>';
 
-		echo '<div class="promotion_ctas"><a href="https://www.wpinventory.com/downloads/wp-inventory-manager-all-access-pass/" target="_blank">Learn More</a> <a class="button button-primary green" href="https://www.wpinventory.com/checkout?edd_action=add_to_cart&download_id=1990" target="_blank">' . self::__( 'Buy Now' ) . '</a></div>';
+		echo '<div class="promotion_ctas"><a href="https://www.wpinventory.com/wp-inventory-license/" target="_blank">Learn More</a> <a class="button button-primary green" href="https://www.wpinventory.com/checkout?edd_action=add_to_cart&download_id=1990" target="_blank">' . self::__( 'Buy Now' ) . '</a></div>';
 		echo '</div>';
 		echo '</div>'; // End wpim_sidebar
 
@@ -321,13 +338,47 @@ class WPIMPromo extends WPIMCore {
 				'title'    => self::__( 'Advanced Inventory Manager' ),
 				'callback' => 'promote_aim'
 			],
-			'locations' => [
+			'locations'  => [
 				'keywords' => [ 'Location' ],
 				'menu'     => self::__( 'Locations Manager' ),
 				'title'    => self::__( 'Locations Manager' ),
 				'callback' => 'promote_locations'
-			]
+			],
+			'analytics'  => [
+				'keywords' => [ 'Analytics' ],
+				'menu'     => self::__( 'Analytics' ),
+				'title'    => self::__( 'Analytics' ),
+				'callback' => 'promote_analytics'
+			],
 		];
+	}
+
+	/**
+	 * Promo markup for Analytics add-on (shown to free/Core users).
+	 */
+	public function promote_analytics() {
+		$this->open_promo_markup( self::__( 'Inventory Analytics' ), 'analytics' );
+
+		echo '<div class="col col-6">';
+		echo '<h2>' . self::__( 'Know your inventory at a glance.' ) . '</h2>';
+		echo '<ul>';
+		echo '<li>' . self::__( 'Summary cards: active items, stock levels, out-of-stock counts' ) . '</li>';
+		echo '<li>' . self::__( 'Most viewed items (top 10 by detail-page views)' ) . '</li>';
+		echo '<li>' . self::__( 'Category and status breakdowns' ) . '</li>';
+		echo '<li>' . self::__( 'Low-stock alert table with category and price details' ) . '</li>';
+		echo '<li>' . self::__( 'Reservation analytics and CSV export (requires Reserve Cart)' ) . '</li>';
+		echo '<li>' . self::__( 'Payments summary with gross/net revenue (requires Stripe or PayPal)' ) . '</li>';
+		echo '<li>' . self::__( 'Ledger value tracking (requires Ledger)' ) . '</li>';
+		echo '</ul>';
+		echo '<p><strong>' . self::__( 'Note:' ) . '</strong> ' . self::__( 'Analytics requires WP Inventory Pro. Upgrade to Pro and add Analytics for the full dashboard.' ) . '</p>';
+		echo '<div class="promotion_ctas">';
+		echo '<a href="https://www.wpinventory.com/wp-inventory-license/" target="_blank" rel="noopener" class="button button-primary green">' . self::__( 'Get Pro' ) . '</a> ';
+		echo '<a href="https://www.wpinventory.com/documentation/user/add-on-documentation/analytics/" target="_blank" rel="noopener">' . self::__( 'Learn More about Analytics' ) . '</a>';
+		echo '</div>';
+		echo '</div>';
+
+		$this->promote_all_access_pass();
+		$this->close_promo_markup();
 	}
 }
 

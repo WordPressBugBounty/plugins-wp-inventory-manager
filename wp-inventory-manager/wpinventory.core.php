@@ -97,35 +97,14 @@ class WPInventoryInit extends WPIMCore {
 		add_filter( 'wpim_display_filter_form', [ __CLASS__, 'wpim_display_filter_form' ] );
 		add_filter( 'wpim_display_pagination', [ __CLASS__, 'wpim_display_pagination' ] );
 		add_filter( 'wpim_loop_query_args', [ __CLASS__, 'wpim_loop_query_args' ] );
-		add_filter( 'cron_schedules', [ __CLASS__, 'wpim_cron_schedules' ] );
-
 		// Handle notice dismissals
 		add_action( 'wp_ajax_wpim_notice_handler', [ __CLASS__, 'ajax_notice_handler' ] );
-
-		// Handle daily cron job
-		add_action( self::$cron_hook, [ 'WPIMAdmin', 'update_reg_key' ] );
 
 		// Provide rich notification information
 		add_action( 'in_plugin_update_message-' . self::$PLUGIN_FILE, [ __CLASS__, 'plugin_update_message' ], 10, 2 );
 
-		self::add_cron_tasks();
 	}
 
-	/**
-	 * Leverages WP wp_get_schedules hook filter.
-	 *
-	 * Add support for a weekly cron task
-	 */
-	public static function wpim_cron_schedules() {
-		return [ 'weekly' => [ 'interval' => 604800, 'display' => 'Once Weekly' ] ];
-	}
-
-	private static function add_cron_tasks() {
-		$next = wp_next_scheduled( self::$cron_hook );
-		if ( ! $next ) {
-			wp_schedule_event( time(), 'weekly', self::$cron_hook );
-		}
-	}
 
 	/**
 	 * WordPress plugins_loaded action callback.  We use this to initialize the loading of any WP Inventory add-ons

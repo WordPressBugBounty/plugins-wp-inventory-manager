@@ -87,9 +87,7 @@ abstract class WPIMCore extends WPIMConstants {
 
 	protected static $shortcode_rendered = FALSE;
 
-	protected static $cron_hook = 'wpim_cron_hook';
-
-	public static $year;
+public static $year;
 
 	/**
 	 * Sort variables

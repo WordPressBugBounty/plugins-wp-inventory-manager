@@ -4,7 +4,7 @@
  * Plugin Name:    WP Inventory
  * Plugin URI:    http://www.wpinventory.com
  * Description:    Manage and display your products just like a shopping cart, but without the cart.
- * Version:        2.4.0
+ * Version:        2.4.1
  * Author:        WP Inventory Manager
  * Author URI:    http://www.wpinventory.com/
  * Text Domain:    wpinventory
@@ -84,7 +84,7 @@ if ( ! function_exists( 'wpim_fs' ) ) {
 }
 
 abstract class WPIMConstants {
-	const VERSION = '2.4.0';
+	const VERSION = '2.4.1';
 	const MIN_PHP_VERSION = '5.6';
 	const SHORTCODE = 'wpinventory';
 	const SETTINGS = 'wpinventory_settings';
@@ -99,6 +99,8 @@ abstract class WPIMConstants {
 
 function wp_inventory_activate() {
 	update_option( 'wp_inventory_rewrite', TRUE );
+	// Remove legacy registration cron job that referenced the now-deleted update_reg_key method.
+	wp_clear_scheduled_hook( 'wpim_cron_hook' );
 }
 
 function wp_inventory_launch() {
@@ -124,6 +126,13 @@ function wp_inventory_min_php_version() {
 
 // actions necessary on activation
 register_activation_hook( __FILE__, 'wp_inventory_activate' );
+
+// Clean up legacy cron job on every load (safe to call repeatedly — no-op if not scheduled).
+add_action( 'plugins_loaded', function() {
+	if ( wp_next_scheduled( 'wpim_cron_hook' ) ) {
+		wp_clear_scheduled_hook( 'wpim_cron_hook' );
+	}
+}, 1 );
 
 // Instantiate the class
 add_action( 'plugins_loaded', 'wp_inventory_launch' );
