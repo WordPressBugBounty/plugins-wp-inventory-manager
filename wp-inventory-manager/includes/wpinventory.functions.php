@@ -1745,8 +1745,8 @@ function is_wpim_core_registered() {
 function wpim_sanitize_and_decode_json( $string ) {
 	$json = @json_decode( $string );
 	if ( ! $json ) {
-		return ‘’;
+		return '';
 	}
-	$json = array_map( “sanitize_text_field”, $json );
+	$json = array_map( 'sanitize_text_field', $json );
 	return $json;
 }

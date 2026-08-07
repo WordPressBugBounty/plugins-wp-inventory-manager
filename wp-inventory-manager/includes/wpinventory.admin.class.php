@@ -829,13 +829,18 @@ final class WPIMAdmin extends WPIMCore {
 			}
 		}
 
-		echo wpinventory_filter_form_admin();
-
 		$args = [];
+
+		// Sorting and paging still count as "no filters": they can't be the reason
+		// the list came back empty, so a first-run panel is still the right answer.
+		$narrowing_filters = FALSE;
 
 		foreach ( self::$admin_filters AS $filter => $field ) {
 			if ( self::request( $filter ) ) {
 				$args[ $field ] = self::request( $filter );
+				if ( ! in_array( $filter, [ 'inventory_sort_by', 'inventory_page' ], TRUE ) ) {
+					$narrowing_filters = TRUE;
+				}
 			}
 		}
 
@@ -844,6 +849,18 @@ final class WPIMAdmin extends WPIMCore {
 		$loop = new WPIMLoop( $args );
 
 		global $wpinventory_item;
+
+		// An inventory that is genuinely empty gets a first-run panel rather than a
+		// bare column header row. A search that simply matched nothing does not.
+		if ( ! $narrowing_filters && ! $loop->have_items() ) {
+			do_action( 'wpim_admin_items_pre_listing', $loop->get_query_args() );
+			self::empty_inventory_panel();
+			do_action( 'wpim_admin_items_listing', $loop->get_query_args() );
+
+			return;
+		}
+
+		echo wpinventory_filter_form_admin();
 
 		?>
 		<?php if ( self::check_permission( 'add_item', FALSE ) ) { ?>
@@ -922,6 +939,25 @@ final class WPIMAdmin extends WPIMCore {
 		<?php
 		echo wpinventory_pagination( self::$self_url, $loop->get_pages() );
 		do_action( 'wpim_admin_items_listing', $loop->get_query_args() );
+	}
+
+	/**
+	 * Shown in place of the item grid when there is nothing in the inventory yet.
+	 * Add-ons extend it through wpim_admin_items_empty_state.
+	 */
+	private static function empty_inventory_panel() {
+		?>
+      <div class="wpim-empty-state">
+        <h2><?php self::_e( 'No inventory items yet' ); ?></h2>
+        <p class="wpim-empty-state-lead"><?php self::_e( 'Add your first item to start building your inventory.' ); ?></p>
+		  <?php if ( self::check_permission( 'add_item', FALSE ) ) { ?>
+            <p><a class="button button-primary button-hero"
+                  href="<?php echo esc_url( self::$self_url . '&action=add' ); ?>"><?php self::_e( 'Add Inventory Item' ); ?></a>
+            </p>
+		  <?php } ?>
+		  <?php do_action( 'wpim_admin_items_empty_state' ); ?>
+      </div>
+		<?php
 	}
 
 	/**

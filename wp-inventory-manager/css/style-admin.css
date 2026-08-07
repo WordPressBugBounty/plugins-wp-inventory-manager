@@ -1405,3 +1405,92 @@ img.not_the_page {
     }
 }
 
+
+/* First-run panel shown when the inventory has no items yet */
+.inventorywrap .wpim-empty-state {
+    max-width: 720px;
+    margin: 20px auto 0;
+    padding: 40px 20px;
+    background: #fff;
+    border: 1px solid #dcdcde;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.inventorywrap .wpim-empty-state h2 {
+    margin: 0 0 8px;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.inventorywrap .wpim-empty-state .wpim-empty-state-lead {
+    margin: 0 0 20px;
+    color: #50575e;
+    font-size: 14px;
+}
+
+.inventorywrap .wpim-empty-state-teaser {
+    max-width: 420px;
+    margin: 32px auto 0;
+    padding-top: 20px;
+    border-top: 1px solid #f0f0f1;
+}
+
+.inventorywrap .wpim-empty-state-teaser .wpim-teaser-lead {
+    margin: 0 0 4px;
+    color: #50575e;
+}
+
+.inventorywrap .wpim-empty-state-teaser p {
+    margin: 0 0 4px;
+}
+
+.inventorywrap .wpim-empty-state-teaser .wpim-teaser-dismiss {
+    margin-top: 12px;
+}
+
+.inventorywrap .wpim-empty-state-teaser .wpim-teaser-dismiss a {
+    color: #787c82;
+    font-size: 12px;
+    text-decoration: none;
+}
+
+.inventorywrap .wpim-empty-state-teaser .wpim-teaser-dismiss a:hover {
+    color: #b32d2e;
+}
+
+/* Contextual add-on teasers: item editor field list and Labels screen */
+.inventorywrap .wpim-field-teaser td {
+    padding-top: 14px;
+    border-top: 1px solid #f0f0f1;
+    color: #646970;
+    font-size: 13px;
+}
+
+.inventorywrap .wpim-labels-teaser {
+    margin: 15px 0;
+    padding: 12px 15px;
+    background: #fff;
+    border: 1px solid #dcdcde;
+    border-left: 3px solid #72aee6;
+    border-radius: 0 3px 3px 0;
+}
+
+.inventorywrap .wpim-labels-teaser p {
+    margin: 0;
+    color: #50575e;
+}
+
+.inventorywrap .wpim-labels-teaser .wpim-teaser-dismiss {
+    margin-top: 6px;
+}
+
+.inventorywrap .wpim-labels-teaser .wpim-teaser-dismiss a {
+    color: #787c82;
+    font-size: 12px;
+    text-decoration: none;
+}
+
+.inventorywrap .wpim-labels-teaser .wpim-teaser-dismiss a:hover {
+    color: #b32d2e;
+}
