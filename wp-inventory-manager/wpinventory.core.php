@@ -233,7 +233,14 @@ class WPInventoryInit extends WPIMCore {
 
 		self::add_submenu( self::__( 'Statuses' ), 'wpim_manage_statuses' );
 		do_action( 'wpim_admin_menu' );
-		self::add_submenu( self::__( 'Add Ons' ), 'wpim_manage_add_ons' );
+
+		// Suppressed when the Freemius SDK is loaded. This grid lists the hardcoded add-on set
+		// and sends people to the website checkout, which is right for an EDD customer and wrong
+		// for anyone buying through Freemius — they get Freemius's own add-ons page instead.
+		if ( ! apply_filters( 'wpim_suppress_admin_menu_add_ons', FALSE ) ) {
+			self::add_submenu( self::__( 'Add Ons' ), 'wpim_manage_add_ons' );
+		}
+
 		self::add_submenu( self::__( 'Settings' ), 'wpim_manage_settings' );
 
 		if ( ! apply_filters( 'wpim_suppress_admin_menu_support', FALSE ) ) {

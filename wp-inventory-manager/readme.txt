@@ -3,7 +3,7 @@ Contributors: chuck1982
 Tags: inventory, inventory manager, product catalog, stock management, woocommerce alternative
 Requires at least: 3.5.0
 Tested up to: 7.0
-Stable Tag: 2.4.2
+Stable Tag: 2.4.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -170,6 +170,10 @@ Full documentation is available at [https://www.wpinventory.com/documentation/us
 
 
 == Changelog ==
+= 2.4.3 =
+* New: upgrades and add-on purchases now happen directly in your WordPress dashboard, rather than sending you out to the website
+* Fix: activating a second copy of WP Inventory — including WP Inventory Pro alongside the free plugin — no longer causes a fatal error; the extra copy stands down and explains why
+
 = 2.4.2 =
 * New: a getting-started panel now appears in place of the empty item grid when there are no inventory items yet
 * New: pointers to the Import / Export and Advanced Inventory Manager add-ons on the screens where they are relevant, dismissible and hidden once the add-on is installed

@@ -10,6 +10,18 @@ class WPIMPromo extends WPIMCore {
 	private $TEST_MODE = FALSE;
 
 	public function __construct() {
+		/**
+		 * Every surface here sells through the website checkout — the promo pages, the inline
+		 * teasers and the dismissal notices all link to wpinventory.com. A site running the
+		 * Freemius SDK buys through Freemius instead, so none of it should render there.
+		 *
+		 * Hooked from the Freemius bootstrap block in wpinventory.php, which only runs when the
+		 * SDK actually initialises.
+		 */
+		if ( apply_filters( 'wpim_suppress_promos', FALSE ) ) {
+			return;
+		}
+
 		$this->set_up_promotions();
 
 		add_action( 'admin_notices', [ $this, 'dismissal_notices' ] );
