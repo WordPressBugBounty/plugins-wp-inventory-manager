@@ -1,3 +1,27 @@
+/* ============================================================
+   WP Inventory Manager — Admin Styles
+   Restyled 2026-07-21 to the WP Inventory Design System
+   (navy palette, April 2026 — see Design/design_system/)
+
+   RULES APPLIED:
+   - No selectors renamed or removed. No specificity changes.
+   - Property VALUES updated only; a few properties ADDED
+     (border-radius, box-shadow) where marked with "DS+".
+   - No web-font imports in wp-admin (system font retained).
+
+   TOKEN MAP (hex used below → token):
+   #2D5FAA  primary-500 (brand accent)   #244E8E primary-600
+   #1C3D72  primary-700                   #EEF3FB primary-50
+   #A8C0E9  primary-200                   #1E2D5A navy-700 (header)
+   #16213F  navy-800 (tooltips)
+   #F5F6F7  neutral-100  #EAECEF neutral-200  #D8DBE0 neutral-300
+   #C8CDD8  neutral-400  #9DA4AE neutral-500  #7A8290 neutral-600
+   #555C65  neutral-700  #3A4049 neutral-800  #2C3136 neutral-900
+   #1A9E6B  success-500  #12714C success-700  #ECFDF5 success-50
+   #D97706  warning-500  #FFFBEB warning-50
+   #DC2626  danger-500   #9B1C1C danger-700   #FEF2F2 danger-50
+   ============================================================ */
+
 #wpcontent {
     background: #fff;
 }
@@ -43,7 +67,7 @@
 .inventorywrap th h3 {
     margin: 0;
     padding: 0;
-    text-decoration: underline;
+    text-decoration: none; /* was underline */
 }
 
 .inventorywrap textarea {
@@ -54,16 +78,16 @@
 .inventorywrap .grid {
     border-collapse: collapse;
     margin: 20px 0;
-    font-size: 16px;
+    font-size: 14px; /* was 16px — text-base token */
 }
 
 .inventorywrap a.delete,
 .inventorywrap a[class*="delete-"] {
-    color: #900;
+    color: #9B1C1C; /* was #900 */
 }
 
 .inventorywrap .mediasortable {
-    border: 1px solid #ccc;
+    border: 1px solid #D8DBE0; /* was #ccc */
     border-radius: 5px;
     padding: 5px;
     min-height: 20px;
@@ -77,7 +101,7 @@
 
 .inventorywrap .imagewrapper,
 .inventorywrap .imageplaceholder {
-    border: 1px solid #ccc;
+    border: 1px solid #D8DBE0; /* was #ccc */
     padding: 11px 11px 10px 10px;
     display: inline-block;
     zoom: 1;
@@ -86,6 +110,8 @@
     margin: 0 5px 5px 0;
     vertical-align: top;
     cursor: crosshair;
+    border-radius: 5px; /* DS+ */
+    background: #fff;   /* DS+ */
 }
 
 .inventorywrap .imagecontainer {
@@ -97,10 +123,11 @@
 .inventorywrap div.mediacontainer {
     line-height: 15px;
     font-size: 14px;
-    border: 1px solid #ccc;
+    border: 1px solid #D8DBE0; /* was #ccc */
     margin: 12px 20px 0 0;
     padding: 5px 10px;
     position: relative;
+    border-radius: 5px; /* DS+ */
 }
 
 .inventorywrap div.mediacontainer p {
@@ -109,7 +136,7 @@
 
 .inventorywrap div.mediacontainer p.media_url {
     font-size: 12px;
-    color: #888;
+    color: #7A8290; /* was #888 */
     line-height: 15px;
     margin-top: 0;
     vertical-align: baseline;
@@ -127,13 +154,13 @@
 
 .inventorywrap .ui-sortable-placeholder {
     visibility: visible !important;
-    border: 2px dashed #ccc;
-    background: #eee;
+    border: 2px dashed #C8CDD8; /* was #ccc */
+    background: #F5F6F7;        /* was #eee */
     padding: 10px 10px 9px 9px;
 }
 
 .inventorywrap .sortable-handle {
-    color: #666;
+    color: #7A8290; /* was #666 */
 }
 
 .inventorywrap .ui-sortable-helper {
@@ -145,7 +172,7 @@
     position: absolute;
     top: -10px;
     right: -10px;
-    background: red;
+    background: #DC2626; /* was red */
     color: white;
     width: 20px;
     height: 20px;
@@ -172,14 +199,14 @@
 }
 
 .inventorywrap .media-container .media-deleted {
-    border: 1px dashed red;
-    background: #fcc;
+    border: 1px dashed #DC2626; /* was red */
+    background: #FEF2F2;        /* was #fcc */
 }
 
 .inventorywrap .sortnotice {
-    background: #ccc;
+    background: #F5F6F7; /* was #ccc */
     font-weight: bold;
-    color: #444;
+    color: #555C65;      /* was #444 */
     padding: 5px 10px;
     margin-top: 0;
 }
@@ -201,7 +228,7 @@
 
 .wpim_header h2 {
     display: block;
-    background: #1e9ee5 url(../images/admin-h-icon.png) 30px center no-repeat;
+    background: #1E2D5A url(../images/admin-h-icon.png) 30px center no-repeat; /* was #1e9ee5 — brand navy */
     color: white;
     margin: -10px -20px 10px -22px;
     padding: 10px 20px 10px 148px;
@@ -255,7 +282,7 @@
 .inventorywrap th h3 {
     margin: 0;
     padding: 0;
-    text-decoration: underline;
+    text-decoration: none; /* was underline */
 }
 
 .inventorywrap textarea {
@@ -287,7 +314,7 @@
 }
 
 .inventorywrap tr.title {
-    font-size: 15px;
+    font-size: 14px; /* was 15px */
 }
 
 .inventorywrap .grid td,
@@ -296,7 +323,7 @@
 }
 
 .inventorywrap .grid td {
-    border: 1px solid #ddd;
+    border: 1px solid #EAECEF; /* was #ddd */
 }
 
 .inventorywrap th.name,
@@ -313,12 +340,12 @@
 .inventorywrap tr.not_used th label,
 .inventorywrap tr.not_used td span,
 .inventorywrap tr.not_used input[type="text"] {
-    color: #999;
+    color: #9DA4AE; /* was #999 */
     text-decoration: line-through;
 }
 
 .inventorywrap tr.not_used input[type="checkbox"] + label {
-    color: #444;
+    color: #3A4049; /* was #444 */
     text-decoration: none;
 }
 
@@ -336,7 +363,7 @@
 .inventorywrap .grid td.action a span.tip {
     display: none;
     position: absolute;
-    background: black;
+    background: #16213F; /* was black */
     color: white;
     left: -15px;
     top: -25px;
@@ -344,7 +371,7 @@
     line-height: 15px;
     padding: 2px 4px;
     font-size: 11px;
-    border-radius: 2px;
+    border-radius: 3px; /* was 2px */
     white-space: nowrap;
 }
 
@@ -354,7 +381,7 @@
     height: 0;
     border-left: 5px solid transparent;
     border-right: 5px solid transparent;
-    border-top: 5px solid black;
+    border-top: 5px solid #16213F; /* was black */
     position: absolute;
     top: 19px;
     left: 30%;
@@ -365,7 +392,7 @@
 }
 
 .inventorywrap .grid tr.title th {
-    background: #ccc;
+    background: #EAECEF; /* was #ccc */
 }
 
 .inventorywrap .grid tr.title th strong {
@@ -378,7 +405,7 @@
 }
 
 .inventorywrap .grid td {
-    border: 1px solid #ddd;
+    border: 1px solid #EAECEF; /* was #ddd */
 }
 
 .inventorywrap .gridsmall td,
@@ -404,12 +431,12 @@
 .inventorywrap tr.not_used th label,
 .inventorywrap tr.not_used td span,
 .inventorywrap tr.not_used input[type="text"] {
-    color: #999;
+    color: #9DA4AE; /* was #999 */
     text-decoration: line-through;
 }
 
 .inventorywrap tr.not_used input[type="checkbox"] + label {
-    color: #444;
+    color: #3A4049; /* was #444 */
     text-decoration: none;
 }
 
@@ -418,7 +445,7 @@
 }
 
 .inventorywrap .grid tr.title th {
-    background: #ccc;
+    background: #EAECEF; /* was #ccc */
 }
 
 .inventorywrap .grid tr.title th strong {
@@ -426,11 +453,11 @@
 }
 
 .inventorywrap a.delete {
-    color: #900;
+    color: #9B1C1C; /* was #900 */
 }
 
 .inventorywrap .mediasortable {
-    border: 1px solid #ccc;
+    border: 1px solid #D8DBE0; /* was #ccc */
     border-radius: 5px;
     padding: 5px;
     min-height: 20px;
@@ -439,7 +466,7 @@
 
 .inventorywrap .imagewrapper,
 .inventorywrap .imageplaceholder {
-    border: 1px solid #ccc;
+    border: 1px solid #D8DBE0; /* was #ccc */
     padding: 11px 11px 10px 10px;
     display: inline-block;
     zoom: 1;
@@ -459,7 +486,7 @@
 .inventorywrap div.mediacontainer {
     line-height: 15px;
     font-size: 14px;
-    border: 1px solid #ccc;
+    border: 1px solid #D8DBE0; /* was #ccc */
     margin: 12px 20px 0 0;
     padding: 5px 10px;
     position: relative;
@@ -471,7 +498,7 @@
 
 .inventorywrap div.mediacontainer p.media_url {
     font-size: 12px;
-    color: #888;
+    color: #7A8290; /* was #888 */
     line-height: 15px;
     margin-top: 0;
     vertical-align: baseline;
@@ -489,8 +516,8 @@
 
 .inventorywrap div.ui-sortable-placeholder {
     visibility: visible !important;
-    border: 2px dashed #ccc;
-    background: #eee;
+    border: 2px dashed #C8CDD8; /* was #ccc */
+    background: #F5F6F7;        /* was #eee */
     padding: 10px 10px 9px 9px;
 }
 
@@ -503,7 +530,7 @@
     position: absolute;
     top: -10px;
     right: -10px;
-    background: red;
+    background: #DC2626; /* was red */
     color: white;
     width: 20px;
     height: 20px;
@@ -530,14 +557,14 @@
 }
 
 .inventorywrap .media-container .media-deleted {
-    border: 1px dashed red;
-    background: #fcc;
+    border: 1px dashed #DC2626; /* was red */
+    background: #FEF2F2;        /* was #fcc */
 }
 
 .inventorywrap .sortnotice {
-    background: #ccc;
+    background: #F5F6F7; /* was #ccc */
     font-weight: bold;
-    color: #444;
+    color: #555C65;      /* was #444 */
     padding: 5px 10px;
     margin-top: 0;
 }
@@ -580,7 +607,7 @@
 }
 
 .inventorywrap .list_selected {
-    border: 1px dashed #1e9ee5;
+    border: 1px dashed #2D5FAA; /* was #1e9ee5 */
 }
 
 .inventorywrap .wpim_field_views .list ul {
@@ -603,7 +630,7 @@
     font-style: italic;
     text-align: center;
     text-transform: uppercase;
-    border-top: 1px dashed #1e9ee5;
+    border-top: 1px dashed #A8C0E9; /* was #1e9ee5 */
 }
 
 .inventorywrap .wpim_field_views .expanded .add_all {
@@ -611,13 +638,14 @@
 }
 
 .inventorywrap .list h3 {
-    background: #1e9ee5;
+    background: #244E8E; /* was #1e9ee5 — primary-600 */
     color: #fff;
     margin: 0;
     padding: 10px;
-    font-size: 16px;
+    font-size: 15px; /* was 16px */
     cursor: pointer;
     position: relative;
+    border-radius: 5px 5px 0 0; /* DS+ */
 }
 
 .inventorywrap .list h3::after {
@@ -641,7 +669,7 @@
 }
 
 .inventorywrap .sortable li {
-    border: 1px solid #1e9ee5;
+    border: 1px solid #A8C0E9; /* was #1e9ee5 — primary-200 */
     display: block;
     width: auto;
     padding: 5px;
@@ -651,17 +679,18 @@
     font-size: 12px;
     min-height: 17px;
     position: relative;
+    background: #fff; /* DS+ */
 }
 
 .inventorywrap .sortable li.ui-state-highlight {
     padding: 4px;
-    border: 2px dashed #888;
-    color: #888;
+    border: 2px dashed #9DA4AE; /* was #888 */
+    color: #9DA4AE;             /* was #888 */
     background: white;
 }
 
 .inventorywrap .wpim_field_views .list .remove {
-    color: red;
+    color: #DC2626; /* was red */
     cursor: pointer;
     position: absolute;
     right: 30px;
@@ -674,10 +703,10 @@
 }
 
 .inventorywrap .sortable .more-tag {
-    border: 1px solid #1e9ee5;
+    border: 1px solid #2D5FAA;      /* was #1e9ee5 */
     font-size: 20px;
     padding: 10px 20px !important;
-    background: #1e9ee5 !important;
+    background: #2D5FAA !important; /* was #1e9ee5 */
     color: #fff !important;
 }
 
@@ -692,15 +721,15 @@ div.wpinventory_pagination {
 
 div.wpinventory_pagination span {
     float: left;
-    color: #888;
+    color: #7A8290; /* was #888 */
 }
 
 div.wpinventory_pagination a {
     display: inline-block;
     zoom: 1;
     *display: inline;
-    color: white;
-    background: #aaa;
+    color: #2C3136;                /* was white */
+    background: #fff;              /* was #aaa */
     width: auto;
     padding: 0 6px;
     height: 24px;
@@ -708,7 +737,8 @@ div.wpinventory_pagination a {
     text-align: center;
     margin-right: 2px;
     text-decoration: none;
-    border: 1px solid transparent;
+    border: 1px solid #D8DBE0;     /* was transparent */
+    border-radius: 3px;            /* DS+ */
 }
 
 div.wpinventory_pagination a.page_prev {
@@ -721,13 +751,15 @@ div.wpinventory_pagination a.page_next {
 
 div.wpinventory_pagination a.page_current {
     font-weight: bold;
-    background: #444;
+    background: #2D5FAA; /* was #444 */
+    color: #fff;         /* DS+ */
+    border-color: #2D5FAA; /* DS+ */
 }
 
 div.wpinventory_pagination a:hover {
-    border: 1px solid #444;
-    color: #444;
-    background: #ccc;
+    border: 1px solid #2D5FAA; /* was #444 */
+    color: #1C3D72;            /* was #444 */
+    background: #EEF3FB;       /* was #ccc */
 }
 
 .inventorywrap div.add_on {
@@ -736,10 +768,12 @@ div.wpinventory_pagination a:hover {
     *display: inline;
     width: 300px;
     height: 460px;
-    border: 1px solid #aaa;
+    border: 1px solid #D8DBE0; /* was #aaa */
     padding: 0 10px 10px 10px;
     background: white;
     margin: 0 10px 10px 0;
+    border-radius: 8px;                                             /* DS+ */
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04); /* DS+ */
 }
 
 .inventorywrap div.add_on_installed {
@@ -747,20 +781,20 @@ div.wpinventory_pagination a:hover {
 }
 
 .inventorywrap div.add_on h3 {
-    font-size: 18px;
-    border-bottom: 1px solid #aaa;
+    font-size: 16px;                  /* was 18px */
+    border-bottom: 1px solid #EAECEF; /* was #aaa */
     margin: 0 -10px 10px;
     padding: 10px 20px;
 }
 
 .inventorywrap .inventory-config h3 {
-    text-decoration: underline;
+    text-decoration: none; /* was underline */
 }
 
 .inventorywrap .inventory-config th h4 {
     display: inline-block;
     font-size: 1.10em;
-    text-decoration: underline;
+    text-decoration: none; /* was underline */
     padding-bottom: 0;
     margin-bottom: 0;
 }
@@ -778,12 +812,13 @@ div.wpinventory_pagination a:hover {
     left: 35px;
     right: 35px;
     font-size: 25px;
-    background: rgba(0, 90, 0, .7);
+    background: rgba(26, 158, 107, .85); /* was rgba(0,90,0,.7) */
     color: white;
     display: block;
     padding: 10px 0;
     font-weight: bold;
     margin-top: -19px;
+    border-radius: 5px; /* DS+ */
 }
 
 .inventorywrap div.add_on img {
@@ -811,16 +846,18 @@ div.wpinventory_pagination a:hover {
     *display: inline;
     margin: 0 auto;
     padding: 8px 16px;
-    background: #090;
-    border: 1px solid #090;
+    background: #2D5FAA;        /* was #090 */
+    border: 1px solid #2D5FAA;  /* was #090 */
     color: white;
     font-weight: bold;
     text-decoration: none;
-    font-size: 16px;
+    font-size: 15px;            /* was 16px */
+    border-radius: 5px;         /* DS+ */
+    transition: background 150ms ease-out; /* DS+ */
 }
 
 .inventorywrap div.add_on p.learn_more a:hover {
-    background: #0a0;
+    background: #244E8E; /* was #0a0 */
 }
 
 .inventorywrap form.donate {
@@ -846,11 +883,11 @@ tr.license_keys td:first-child {
 }
 
 .form-table td p.license_valid {
-    background: #080;
+    background: #1A9E6B; /* was #080 */
 }
 
 .form-table td p.license_invalid {
-    background: #800;
+    background: #DC2626; /* was #800 */
 }
 
 form.inventory-config {
@@ -860,12 +897,12 @@ form.inventory-config {
 .wpim_tabs {
     margin-top: 10px;
     padding: 0 15px;
-    border-bottom: 1px solid #aaa;
+    border-bottom: 1px solid #D8DBE0; /* was #aaa */
 }
 
 form.inventory-config .wpim_tabs {
     padding: 0;
-    border-bottom: 1px solid #aaa;
+    border-bottom: 1px solid #D8DBE0; /* was #aaa */
     width: 25%;
     display: inline-block;
 }
@@ -880,42 +917,46 @@ form.inventory-config .wpim_tabs {
     outline: 0;
     display: inline-block;
     vertical-align: bottom;
-    border: 1px solid #aaa;
+    border: 1px solid #D8DBE0; /* was #aaa */
     box-shadow: none;
     padding: 5px 10px;
-    background: #ccc;
+    background: #F5F6F7;       /* was #ccc */
     text-decoration: none;
     margin-right: -1px;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid #D8DBE0; /* was #ccc */
+    color: #555C65;            /* DS+ */
+    border-radius: 5px 5px 0 0; /* DS+ */
 }
 
 form.inventory-config .wpim_tabs a {
     padding: 10px;
     background: #fff;
-    color: #000;
+    color: #2C3136; /* was #000 */
     display: block;
     transition: font-size .2s ease;
     border: none;
 }
 
 .wpim_tabs a.active {
-    background: transparent;
-    border-bottom: 1px solid #eee;
+    background: #fff;               /* was transparent */
+    border-bottom: 1px solid #fff;  /* was #eee */
     font-weight: bold;
     margin-bottom: -1px;
     padding: 7px 15px;
+    color: #1C3D72;                 /* DS+ */
 }
 
 form.inventory-config .wpim_tabs a.active,
 form.inventory-config .wpim_tabs a:hover {
-    font-size: 1.2rem;
+    font-size: 1rem;   /* was 1.2rem — no jumpy grow effect */
     border: none;
-    font-weight: 400;
+    font-weight: 500;  /* was 400 */
 }
 
 form.inventory-config .wpim_tabs a.active {
-    background: #349ce4;
+    background: #2D5FAA; /* was #349ce4 */
     color: #fff;
+    border-radius: 5px;  /* DS+ */
 }
 
 .wpim_subtabs {
@@ -931,7 +972,7 @@ form.inventory-config .wpim_tabs a.active {
     position: relative;
     margin: 0;
     padding: 5px 10px 5px 0;
-    font-size: 16px;
+    font-size: 14px; /* was 16px */
 }
 
 .wpim_subtabs a.active {
@@ -970,29 +1011,30 @@ h5 .wpim-toggle-section {
 }
 
 .wpim_notice {
-    border: 1px solid black;
-    border-left: 6px solid black;
+    border: 1px solid #D8DBE0;      /* was black */
+    border-left: 6px solid #2D5FAA; /* was black */
     background: white;
     margin: 5px 0;
     padding: 10px 20px;
-    box-shadow: 1px 1px 3px #aaa;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08); /* was 1px 1px 3px #aaa */
+    border-radius: 3px; /* DS+ */
 }
 
 .wpim_error,
 .wpim_danger,
 .inventorywrap .grid .wpim_error,
 .inventorywrap .grid .wpim_danger {
-    border-left: 6px solid red;
+    border-left: 6px solid #DC2626; /* was red */
 }
 
 .wpim_warning,
 .inventorywrap .grid .wpim_warning {
-    border-left: 6px solid #ffa500;
+    border-left: 6px solid #D97706; /* was #ffa500 */
 }
 
 .wpim_success,
 .inventorywrap .grid .wpim_success {
-    border-left: 6px solid green;
+    border-left: 6px solid #1A9E6B; /* was green */
 }
 
 .wpim_status_notice {
@@ -1010,17 +1052,17 @@ h5 .wpim-toggle-section {
 
 .wpim_status_notice.wpim_error:before,
 .wpim_status_notice.wpim_danger:before {
-    color: #aa0000;
+    color: #DC2626; /* was #aa0000 */
     content: "\f534";
 }
 
 .wpim_status_notice.wpim_warning:before {
-    color: #ffa500;
+    color: #D97706; /* was #ffa500 */
     content: "\f227";
 }
 
 .wpim_status_notice.wpim_success:before {
-    color: #00aa00;
+    color: #1A9E6B; /* was #00aa00 */
     content: "\f147";
 }
 
@@ -1037,9 +1079,9 @@ h5 .wpim-toggle-section {
     display: inline-block;
     vertical-align: top;
     padding: 15px;
-    border: 2px solid #aaa;
-    border-radius: 4px;
-    box-shadow: 0 0 4px #888;
+    border: 1px solid #D8DBE0; /* was 2px solid #aaa */
+    border-radius: 8px;        /* was 4px */
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04); /* was 0 0 4px #888 */
     background: white;
     margin: 0 10px 20px;
 }
@@ -1047,7 +1089,7 @@ h5 .wpim-toggle-section {
 .wpim-status-panel h3 {
     margin: -7px -15px 8px;
     padding: 0 15px 8px;
-    border-bottom: 1px solid #aaa;
+    border-bottom: 1px solid #EAECEF; /* was #aaa */
     text-align: center;
 }
 
@@ -1088,7 +1130,7 @@ h5 .wpim-toggle-section {
 
 .wpim-status-panel .status-related p {
     font-size: 12px;
-    color: #444;
+    color: #555C65; /* was #444 */
     margin: 0;
     padding: 0;
     line-height: 17px;
@@ -1115,32 +1157,32 @@ h5 .wpim-toggle-section {
 }
 
 .wpim-status-success {
-    border-color: green;
+    border-color: #1A9E6B; /* was green */
 }
 
 .wpim-status-success .status-primary p {
-    background: green;
+    background: #1A9E6B; /* was green */
 }
 
 .wpim-status-warning {
-    border-color: #ffa500;
+    border-color: #D97706; /* was #ffa500 */
 }
 
 .wpim-status-warning .status-primary p {
-    background: #ffa500;
+    background: #D97706; /* was #ffa500 */
 }
 
 .wpim-status-danger {
-    border-color: #aa0000;
+    border-color: #DC2626; /* was #aa0000 */
 }
 
 .wpim-status-danger .status-primary p {
-    background: #aa0000;
+    background: #DC2626; /* was #aa0000 */
 }
 
 tr.warning td {
-    background: #fdd;
-    border: 1px solid #fba0a0 !important;
+    background: #FEF2F2;                 /* was #fdd */
+    border: 1px solid #F3C0C0 !important; /* was #fba0a0 */
 }
 
 .wpim-tooltip {
@@ -1165,7 +1207,7 @@ tr.warning td {
     position: absolute;
     top: 25px;
     left: 0;
-    background: black;
+    background: #16213F; /* was black */
     border-radius: 5px;
     color: white;
     font-size: 13px;
@@ -1185,7 +1227,7 @@ tr.warning td {
     height: 0;
     border-left: 5px solid transparent;
     border-right: 5px solid transparent;
-    border-bottom: 5px solid black;
+    border-bottom: 5px solid #16213F; /* was black */
     z-index: 255555;
 }
 
@@ -1195,10 +1237,11 @@ tr.warning td {
 }
 
 #inventory_item_form .sub-entry {
-    border: 1px solid #aaa;
+    border: 1px solid #D8DBE0; /* was #aaa */
     padding: 0 10px;
-    box-shadow: 0 0 5px #aaa;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08); /* was 0 0 5px #aaa */
     background: white;
+    border-radius: 5px; /* DS+ */
 }
 
 .inventorywrap .dashicons-spin {
@@ -1251,7 +1294,7 @@ tr.warning td {
 
 .wpim_setting_omitted {
     font-style: italic;
-    color: #666;
+    color: #7A8290; /* was #666 */
 }
 
 /*  End columns  */
@@ -1405,14 +1448,13 @@ img.not_the_page {
     }
 }
 
-
 /* First-run panel shown when the inventory has no items yet */
 .inventorywrap .wpim-empty-state {
     max-width: 720px;
     margin: 20px auto 0;
     padding: 40px 20px;
     background: #fff;
-    border: 1px solid #dcdcde;
+    border: 1px solid #D8DBE0;
     border-radius: 4px;
     text-align: center;
 }
@@ -1425,7 +1467,7 @@ img.not_the_page {
 
 .inventorywrap .wpim-empty-state .wpim-empty-state-lead {
     margin: 0 0 20px;
-    color: #50575e;
+    color: #555C65;
     font-size: 14px;
 }
 
@@ -1433,12 +1475,12 @@ img.not_the_page {
     max-width: 420px;
     margin: 32px auto 0;
     padding-top: 20px;
-    border-top: 1px solid #f0f0f1;
+    border-top: 1px solid #EAECEF;
 }
 
 .inventorywrap .wpim-empty-state-teaser .wpim-teaser-lead {
     margin: 0 0 4px;
-    color: #50575e;
+    color: #555C65;
 }
 
 .inventorywrap .wpim-empty-state-teaser p {
@@ -1450,20 +1492,20 @@ img.not_the_page {
 }
 
 .inventorywrap .wpim-empty-state-teaser .wpim-teaser-dismiss a {
-    color: #787c82;
+    color: #7A8290;
     font-size: 12px;
     text-decoration: none;
 }
 
 .inventorywrap .wpim-empty-state-teaser .wpim-teaser-dismiss a:hover {
-    color: #b32d2e;
+    color: #DC2626;
 }
 
 /* Contextual add-on teasers: item editor field list and Labels screen */
 .inventorywrap .wpim-field-teaser td {
     padding-top: 14px;
-    border-top: 1px solid #f0f0f1;
-    color: #646970;
+    border-top: 1px solid #EAECEF;
+    color: #7A8290;
     font-size: 13px;
 }
 
@@ -1471,14 +1513,14 @@ img.not_the_page {
     margin: 15px 0;
     padding: 12px 15px;
     background: #fff;
-    border: 1px solid #dcdcde;
-    border-left: 3px solid #72aee6;
+    border: 1px solid #D8DBE0;
+    border-left: 3px solid #2D5FAA;
     border-radius: 0 3px 3px 0;
 }
 
 .inventorywrap .wpim-labels-teaser p {
     margin: 0;
-    color: #50575e;
+    color: #555C65;
 }
 
 .inventorywrap .wpim-labels-teaser .wpim-teaser-dismiss {
@@ -1486,11 +1528,437 @@ img.not_the_page {
 }
 
 .inventorywrap .wpim-labels-teaser .wpim-teaser-dismiss a {
-    color: #787c82;
+    color: #7A8290;
     font-size: 12px;
     text-decoration: none;
 }
 
 .inventorywrap .wpim-labels-teaser .wpim-teaser-dismiss a:hover {
-    color: #b32d2e;
+    color: #DC2626;
 }
+
+/* ============================================================
+   2.5.0 admin UI — quality-pass polish  (DS+ additive, low-risk)
+   Adds row feedback, a pinned header, calm action icons and keyboard
+   focus. Table STRUCTURE is unchanged: same .grid / tr.title / td.action
+   markup, so custom CSS and add-ons that hook the listing keep working.
+   ============================================================ */
+
+/* Zebra striping — the header is tr.title (first row, th cells), so it is
+   never matched by these td rules and stays its own shade. */
+.inventorywrap .grid tr:nth-child(even) td {
+    background: #FAFBFC; /* neutral-50 */
+}
+
+/* Row hover — same specificity as zebra, declared after it so it wins.
+   Header uses th, so it is never hover-highlighted. */
+.inventorywrap .grid tr:hover td {
+    background: #EEF3FB; /* primary-50 */
+}
+
+/* Sticky header — under a collapsed table the cell border disappears when the
+   header sticks, so redraw the bottom edge with an inset shadow. */
+.inventorywrap .grid tr.title th {
+    position: sticky;
+    top: 32px;                       /* clears the fixed WP admin bar */
+    z-index: 2;
+    box-shadow: inset 0 -1px 0 #D8DBE0;
+}
+@media screen and (max-width: 782px) { .inventorywrap .grid tr.title th { top: 46px; } }
+@media screen and (max-width: 600px) { .inventorywrap .grid tr.title th { top: 0; } }
+
+/* Action-icon hierarchy — neutral at rest (incl. delete), intent on hover only. */
+.inventorywrap .grid td.action a {
+    border-radius: 5px;
+    padding: 2px 4px;
+    transition: background .12s ease, color .12s ease;
+}
+.inventorywrap .grid td.action a .dashicons,
+.inventorywrap .grid td.action a .dashicons:before { color: #7A8290; }
+.inventorywrap .grid td.action a:hover { background: #EEF3FB; }
+.inventorywrap .grid td.action a:hover .dashicons,
+.inventorywrap .grid td.action a:hover .dashicons:before { color: #2D5FAA; }
+.inventorywrap .grid td.action a.delete:hover { background: #FEF2F2; }
+.inventorywrap .grid td.action a.delete:hover .dashicons,
+.inventorywrap .grid td.action a.delete:hover .dashicons:before { color: #DC2626; }
+
+/* Keyboard focus — mouse clicks show nothing (:focus-visible), keyboard shows a ring. */
+.inventorywrap .grid td.action a:focus-visible,
+.inventorywrap .wpim_tabs a:focus-visible,
+.inventorywrap .button:focus-visible,
+.inventorywrap input:focus-visible,
+.inventorywrap select:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(45,95,170,.30);
+    border-radius: 5px;
+}
+
+/* ============================================================
+   2.5.0 cosmetic — round 2 (dev-site feedback)
+   Inventory Items page + Status page. CSS only, no markup change.
+   ============================================================ */
+
+/* --- Search / filter row: align labels with their fields --------------- */
+.inventorywrap #inventory_search {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+    margin: 0 0 16px;
+}
+.inventorywrap #inventory_search > span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0;
+}
+.inventorywrap #inventory_search label {
+    color: #555C65;
+    font-size: 13px;
+    white-space: nowrap;
+    margin: 0;
+}
+.inventorywrap #inventory_search input[type="text"],
+.inventorywrap #inventory_search select {
+    height: 34px;
+    border: 1px solid #D8DBE0;
+    border-radius: 5px;
+    padding: 0 10px;
+    font-size: 13px;
+    background: #fff;
+    margin: 0;
+}
+
+/* --- Category cells as chips (visualise items per category) ------------- */
+.inventorywrap .grid td.inventory_category a {
+    display: inline-block;
+    padding: 2px 11px;
+    background: #EEF3FB;
+    color: #244E8E;
+    border: 1px solid #DCE7F7;
+    border-radius: 999px;
+    font-size: 12.5px;
+    font-weight: 600;
+    line-height: 1.7;
+    text-decoration: none;
+}
+.inventorywrap .grid td.inventory_category a:hover {
+    background: #DCE7F7;
+    text-decoration: none;
+}
+
+/* --- Action column: words instead of bare icons ------------------------ */
+.inventorywrap .grid td.action { white-space: nowrap; }
+.inventorywrap .grid td.action a {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 9px;
+    margin: 0 3px 3px 0;
+    border: 1px solid #D8DBE0;
+    border-radius: 5px;
+    background: #fff;
+    color: #555C65;
+    font-size: 12px;
+    line-height: 1.4;
+    text-decoration: none;
+    transition: background .12s ease, color .12s ease, border-color .12s ease;
+}
+.inventorywrap .grid td.action a .dashicons,
+.inventorywrap .grid td.action a .dashicons:before { font-size: 15px; width: 15px; height: 15px; color: inherit; }
+.inventorywrap .grid td.action a span.tip {          /* the label was a hidden tooltip; show it inline */
+    display: inline;
+    position: static;
+    background: none;
+    box-shadow: none;
+    color: inherit;
+    padding: 0;
+    margin: 0;
+    font-size: 12px;
+    text-transform: capitalize;
+    white-space: nowrap;
+}
+.inventorywrap .grid td.action a span.tip:after { display: none; }   /* kill tooltip arrow */
+.inventorywrap .grid td.action a:hover { background: #EEF3FB; border-color: #2D5FAA; color: #2D5FAA; }
+.inventorywrap .grid td.action a.delete:hover { background: #FEF2F2; border-color: #DC2626; color: #DC2626; }
+
+/* --- Status dashboard: flatten the hierarchy, drop the coloured circles - */
+.wpim-status-panel { padding: 20px 22px; min-width: 260px; }
+.wpim-status-panel h3 {
+    margin: 0 0 14px;
+    padding: 0 0 12px;
+    border-bottom: 1px solid #EAECEF;
+    text-align: left;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    color: #7A8290;
+}
+.wpim-status-panel .status-primary { text-align: left; display: block; }
+.wpim-status-panel .status-primary p {           /* the big number — plain, no circle */
+    background: none !important;
+    color: #16213F !important;
+    width: auto; min-width: 0; height: auto;
+    padding: 0; margin: 0; border-radius: 0;
+    font-size: 40px; line-height: 1; font-weight: 700;
+    box-shadow: none;
+}
+.wpim-status-panel .status-primary span {
+    text-align: left; margin: 6px 0 0; max-width: none;
+    font-size: 12px; color: #7A8290; line-height: 1.4;
+}
+.wpim-status-panel .status-related {
+    display: block; margin: 12px 0 0;
+    border-top: 1px solid #F0F1F3; padding-top: 12px;
+}
+.wpim-status-panel .status-related p { font-size: 13px; color: #2C3136; line-height: 1.7; }
+
+/* --- Round 3: action buttons text-only (match Categories), status align --- */
+/* Hide the row-action icons so buttons are text-only, like the Categories page */
+.inventorywrap .grid td.action a .dashicons,
+.inventorywrap .grid td.action a .dashicons:before { display: none; }
+.inventorywrap .grid td.action a { gap: 0; }
+
+/* Reserve/status panel: force the summary lines flush-left, kill stray indent */
+.wpim-status-panel .status-related,
+.wpim-status-panel .status-related p {
+    text-align: left;
+    text-indent: 0;
+    margin: 0;
+    padding: 0;
+}
+.wpim-status-panel .status-related p { line-height: 1.95; }
+
+/* --- Status dashboard: at-a-glance stat strip -------------------------- */
+.wpim-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin: 20px 0 24px;
+}
+.wpim-stat {
+    flex: 1 1 130px;
+    min-width: 118px;
+    background: #fff;
+    border: 1px solid #E4E7EB;
+    border-top: 3px solid #E4E7EB;
+    border-radius: 10px;
+    padding: 18px 20px;
+    box-shadow: 0 1px 2px rgba(0,0,0,.04);
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.wpim-stat-num { font-size: 30px; font-weight: 700; color: #16213F; line-height: 1.05; }
+.wpim-stat-label { font-size: 11.5px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; color: #7A8290; }
+.wpim-stat--warn   { border-top-color: #D97706; }
+.wpim-stat--warn   .wpim-stat-num { color: #9A5304; }
+.wpim-stat--danger { border-top-color: #DC2626; }
+.wpim-stat--danger .wpim-stat-num { color: #B32020; }
+
+/* ============================================================
+   2.5.0 cosmetic — round 4 batch (dev feedback)
+   Banner cube+wordmark · Reserve redesign · Labels/Statuses · Add-Ons
+   ============================================================ */
+
+/* --- Banner: cube logo + wordmark (replaces the circular badge) --------- */
+.wpim_header h2 {
+    background: #1E2D5A url(../images/wpim-cube.png) 22px center no-repeat !important;
+    background-size: 46px 46px !important;
+    padding-left: 86px !important;
+}
+.wpim_header h2::before {
+    content: "WP Inventory Manager";
+    display: inline-block;
+    vertical-align: middle;
+    color: #fff;
+    font-size: 19px;
+    font-weight: 700;
+    letter-spacing: .015em;
+    line-height: 100px;
+}
+
+/* --- Reserve panel: small status badge + clean flush-left summary -------- */
+.wpim-status-panel { max-width: 460px; }
+.wpim-status-panel .status-primary { display: block; }
+.wpim-status-panel .status-primary p {
+    display: inline-block;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    color: #12714C !important;
+    background: #ECFDF5;
+    padding: 3px 13px !important;
+    border-radius: 999px !important;
+    line-height: 1.6 !important;
+}
+.wpim-status-panel .status-primary span {
+    display: inline;
+    margin-left: 8px;
+    font-size: 12px;
+    color: #7A8290;
+}
+.wpim-status-panel .status-related {
+    display: block;
+    margin: 14px 0 0;
+    border-top: 1px solid #F0F1F3;
+    padding-top: 12px;
+}
+.wpim-status-panel .status-related p {
+    display: block;
+    text-align: left !important;
+    text-indent: 0 !important;
+    white-space: normal !important;
+    margin: 0 !important;
+    padding: 3px 0 !important;
+    font-size: 13px;
+    color: #2C3136;
+    line-height: 1.6;
+}
+
+/* --- Labels / Statuses (WP .form-table): give the rows structure -------- */
+.inventorywrap .form-table th,
+.inventorywrap .form-table td {
+    padding: 11px 14px !important;
+    border-bottom: 1px solid #F0F1F3;
+    vertical-align: middle;
+}
+.inventorywrap .form-table th { font-weight: 600; color: #2C3136; }
+.inventorywrap .form-table input[type="text"] {
+    border: 1px solid #D8DBE0;
+    border-radius: 5px;
+    height: 32px;
+    padding: 0 10px;
+}
+.inventorywrap .wpim_statuses th { color: #7A8290; font-size: 12px; text-transform: uppercase; letter-spacing: .03em; }
+
+/* --- Add-Ons: denser grid, small icons, no endless scroll --------------- */
+.inventorywrap div.add_on {
+    width: 240px !important;
+    vertical-align: top;
+}
+.inventorywrap div.add_on .image {
+    height: 96px !important;
+}
+.inventorywrap div.add_on img { max-height: 72px; width: auto; }
+.inventorywrap div.add_on div.description { height: auto !important; min-height: 54px; }
+
+/* Add-Ons: let cards size to content (was fixed height:460px) + tidy grid */
+.inventorywrap div.add_on {
+    height: auto !important;
+    margin: 0 12px 12px 0;
+    padding-bottom: 14px !important;
+    border-radius: 8px;
+    box-shadow: 0 1px 2px rgba(0,0,0,.05);
+    vertical-align: top;
+}
+.inventorywrap div.add_on .image span { font-size: 13px; }   /* the hover overlay text */
+.inventorywrap div.add_on p.learn_more { margin-top: 8px; }
+
+/* ============================================================
+   2.5.0 cosmetic — round 5 (dev feedback)
+   Banner cube/wordmark · equal-height add-on tiles · Labels/Statuses tags
+   ============================================================ */
+
+/* --- Banner: wordmark only (cube removed per feedback) ------------------ */
+.wpim_header h2 {
+    background: #1E2D5A !important;
+    padding-left: 24px !important;
+}
+.wpim_header h2::before {
+    content: "WP Inventory Manager";
+    display: inline-block;
+    vertical-align: middle;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 600;          /* was 700 — less heavy */
+    letter-spacing: .005em;
+    line-height: 100px;
+}
+
+/* --- Add-Ons: real grid so every tile is the same size ------------------ */
+.inventorywrap .wpim-addons-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 16px;
+    margin-top: 16px;
+    align-items: stretch;
+}
+.inventorywrap .wpim-addons-grid div.add_on {
+    width: auto !important;
+    margin: 0 !important;
+    display: flex;
+    flex-direction: column;
+}
+.inventorywrap .wpim-addons-grid div.add_on div.description {
+    flex: 1 1 auto;            /* pushes the button to the bottom -> tiles align */
+    min-height: 0;
+}
+.inventorywrap .wpim-addons-grid div.add_on p.learn_more { margin-top: auto; }
+
+/* --- Status tags (Labels: Shown/Hidden · Statuses: Items visible/hidden) - */
+.wpim-tag {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 999px;
+    font-size: 11.5px;
+    font-weight: 600;
+    line-height: 1.6;
+    white-space: nowrap;
+}
+.wpim-tag--on  { background: #ECFDF5; color: #12714C; }
+.wpim-tag--off { background: #F1F2F4; color: #7A8290; }
+.inventorywrap .form-table tr.not_used th label { color: #9DA4AE; }
+
+/* --- Status dashboard: Quick Actions row -------------------------------- */
+.wpim-section-title {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    color: #7A8290;
+    margin: 26px 0 12px;
+}
+.wpim-quick-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 30px; }
+.wpim-qa {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-width: 108px;
+    padding: 16px 18px;
+    background: #fff;
+    border: 1px solid #E4E7EB;
+    border-radius: 10px;
+    box-shadow: 0 1px 2px rgba(0,0,0,.04);
+    text-decoration: none;
+    color: #2C3136;
+    font-weight: 600;
+    font-size: 13px;
+    transition: border-color .12s ease, box-shadow .12s ease, color .12s ease;
+}
+.wpim-qa:hover { border-color: #2D5FAA; box-shadow: 0 2px 8px rgba(45,95,170,.14); color: #2D5FAA; }
+.wpim-qa .dashicons { font-size: 24px; width: 24px; height: 24px; color: #2D5FAA; }
+.wpim-qa-label { line-height: 1.2; }
+.wpim-qa--primary { background: #2D5FAA; border-color: #2D5FAA; color: #fff; }
+.wpim-qa--primary .dashicons { color: #fff; }
+.wpim-qa--primary:hover { background: #244E8E; border-color: #244E8E; color: #fff; }
+.wpim-qa--upsell .dashicons { color: #D97706; }
+
+/* --- Add-Ons: clean square icons (bundled add-on icon set) -------------- */
+.inventorywrap .wpim-addons-grid div.add_on .image {
+    height: auto !important;
+    padding: 14px 0 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+}
+.inventorywrap .wpim-addons-grid div.add_on .image img {
+    max-height: 66px !important;
+    max-width: 66px;
+    width: auto;
+    border-radius: 14px;
+}
+.inventorywrap .wpim-addons-grid div.add_on .image span { display: none; }  /* old grey overlay off */

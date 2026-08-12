@@ -1134,7 +1134,7 @@ public static $year;
 		echo '<div class="' . $class . '">';
 		echo '<h2>' . esc_attr($title);
 		if ( ! $version_text ) {
-			$version_text = 'WP Inventory Version';
+			$version_text = 'Version';
 		}
 
 		if ( FALSE == $version ) {

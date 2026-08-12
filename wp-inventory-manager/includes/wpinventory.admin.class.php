@@ -255,7 +255,9 @@ final class WPIMAdmin extends WPIMCore {
 
 		do_action( 'wpim_status_dashboard_before', $counts, $messages, $count_data );
 
-		self::dashboard_panel( self::__( 'Inventory Items' ), self::__( 'Visible Items' ), $count_data['total_items'], $counts['items'], $items_class );
+		self::status_stat_strip();
+
+		self::status_quick_actions();
 
 		do_action( 'wpim_status_dashboard_after_items', $counts, $messages, $count_data );
 
@@ -685,6 +687,101 @@ final class WPIMAdmin extends WPIMCore {
 	}
 
 	/**
+	 * At-a-glance stat strip for the Status dashboard.
+	 *
+	 * Read-only summary counts. The quantity-based tiles (Low / Out of stock)
+	 * only appear when the site actually tracks stock (total quantity > 0),
+	 * so catalogue-style sites that ignore quantity are not shown alarming
+	 * "everything is out of stock" numbers.
+	 */
+	public static function status_stat_strip() {
+		global $wpdb;
+		$it = $wpdb->prefix . 'wpinventory_item';
+		$ct = $wpdb->prefix . 'wpinventory_category';
+
+		$total     = (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$it}" );
+		$active    = (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$it} WHERE inventory_status > 0" );
+		$cats      = (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$ct}" );
+		$total_qty = (int) $wpdb->get_var( "SELECT COALESCE( SUM( inventory_quantity ), 0 ) FROM {$it}" );
+
+		$tiles = [
+			[ 'num' => $total,  'label' => self::__( 'Total Items' ), 'tone' => '' ],
+			[ 'num' => $active, 'label' => self::__( 'Active' ),      'tone' => '' ],
+			[ 'num' => $cats,   'label' => self::__( 'Categories' ),  'tone' => '' ],
+		];
+
+		if ( $total_qty > 0 ) {
+			$threshold = (int) self::$config->get( 'low_quantity_amount' );
+			if ( $threshold < 1 ) {
+				$threshold = 5;
+			}
+			$low = (int) $wpdb->get_var( $wpdb->prepare(
+				"SELECT COUNT(*) FROM {$it} WHERE inventory_quantity <= %d AND inventory_quantity > 0 AND inventory_status > 0",
+				$threshold
+			) );
+			$out = (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$it} WHERE inventory_quantity <= 0 AND inventory_status > 0" );
+			$tiles[] = [ 'num' => $low, 'label' => self::__( 'Low Stock' ),    'tone' => ( $low > 0 ) ? 'warn' : '' ];
+			$tiles[] = [ 'num' => $out, 'label' => self::__( 'Out of Stock' ), 'tone' => ( $out > 0 ) ? 'danger' : '' ];
+		} else {
+			$tiles[] = [ 'num' => max( 0, $total - $active ), 'label' => self::__( 'Inactive' ), 'tone' => '' ];
+		}
+
+		echo '<div class="wpim-stats">';
+		foreach ( $tiles AS $t ) {
+			$cls = 'wpim-stat' . ( $t['tone'] ? ' wpim-stat--' . $t['tone'] : '' );
+			echo '<div class="' . esc_attr( $cls ) . '">';
+			echo '<span class="wpim-stat-num">' . esc_html( number_format( $t['num'] ) ) . '</span>';
+			echo '<span class="wpim-stat-label">' . esc_html( $t['label'] ) . '</span>';
+			echo '</div>';
+		}
+		echo '</div>';
+	}
+
+	/**
+	 * Quick-action shortcuts for the Status dashboard.
+	 *
+	 * Pure navigation to the common tasks — no data, no Pro overlap. The
+	 * Import / Export tile links to the Add-Ons page as an upgrade prompt.
+	 */
+	public static function status_quick_actions() {
+		$base = admin_url( 'admin.php?page=' );
+
+		/**
+		 * The upsell tile has to follow whichever shop this site uses.
+		 *
+		 * When the Freemius SDK is loaded the legacy Add Ons page is suppressed, so linking to
+		 * it lands the user on a 403. Point at Freemius's own add-ons page instead — asking the
+		 * SDK for the URL rather than assembling the slug, so a menu change can't silently
+		 * break it.
+		 */
+		$addons_url = $base . 'wpim_manage_add_ons';
+
+		if ( function_exists( 'wpim_fs' ) && method_exists( wpim_fs(), 'get_addons_url' ) ) {
+			$addons_url = wpim_fs()->get_addons_url();
+		}
+
+		$actions = [
+			[ 'url' => $base . 'wpim_manage_inventory_items&action=add', 'icon' => 'plus-alt2',     'label' => self::__( 'Add Item' ),        'mod' => 'primary' ],
+			[ 'url' => $base . 'wpim_manage_categories',                 'icon' => 'category',       'label' => self::__( 'Categories' ),      'mod' => '' ],
+			[ 'url' => $base . 'wpim_manage_labels',                     'icon' => 'tag',            'label' => self::__( 'Labels' ),          'mod' => '' ],
+			[ 'url' => $base . 'wpim_manage_display',                    'icon' => 'visibility',     'label' => self::__( 'Display' ),         'mod' => '' ],
+			[ 'url' => $base . 'wpim_manage_settings',                   'icon' => 'admin-generic',  'label' => self::__( 'Settings' ),        'mod' => '' ],
+			[ 'url' => $addons_url,                                      'icon' => 'download',       'label' => self::__( 'Import / Export' ), 'mod' => 'upsell' ],
+		];
+
+		echo '<h3 class="wpim-section-title">' . self::__( 'Quick Actions' ) . '</h3>';
+		echo '<div class="wpim-quick-actions">';
+		foreach ( $actions AS $a ) {
+			$cls = 'wpim-qa' . ( $a['mod'] ? ' wpim-qa--' . $a['mod'] : '' );
+			echo '<a class="' . esc_attr( $cls ) . '" href="' . esc_url( $a['url'] ) . '">';
+			echo '<span class="dashicons dashicons-' . esc_attr( $a['icon'] ) . '"></span>';
+			echo '<span class="wpim-qa-label">' . esc_html( $a['label'] ) . '</span>';
+			echo '</a>';
+		}
+		echo '</div>';
+	}
+
+	/**
 	 * Output a "Status" panel (on "WP Inventory" => "Status")
 	 *
 	 * @param string       $title
@@ -918,17 +1015,17 @@ final class WPIMAdmin extends WPIMCore {
               <td class="action">
 				  <?php if ( $edit_url ) { ?>
                     <a href="<?php echo esc_url( $edit_url ); ?>"><span class="dashicons dashicons-edit"></span><span
-                          class="tip"><?php self::_e( 'edit item' ); ?></span></a>
+                          class="tip"><?php self::_e( 'Edit' ); ?></span></a>
 				  <?php }
 				  if ( $delete_url ) { ?>
                     <a class="delete" data-name="<?php esc_attr_e( $wpinventory_item->inventory_name ); ?>"
                        href="<?php echo esc_url( $delete_url ); ?>"><span class="dashicons dashicons-trash"></span><span
-                          class="tip"><?php self::_e( 'delete item' ); ?></span></a>
+                          class="tip"><?php self::_e( 'Delete' ); ?></span></a>
 				  <?php }
 				  if ( $duplicate_url ) { ?>
                     <a class="duplicate" data-name="<?php esc_attr_e( $wpinventory_item->inventory_name ); ?>"
                        href="<?php echo esc_url( $duplicate_url ); ?>"><span class="dashicons dashicons-admin-page"></span><span
-                          class="tip"><?php self::_e( 'duplicate item' ); ?></span></a>
+                          class="tip"><?php self::_e( 'Duplicate' ); ?></span></a>
 				  <?php } ?>
 				  <?php do_action( 'wpim_admin_action_links', $wpinventory_item->inventory_id ); ?>
               </td>
@@ -1813,7 +1910,7 @@ final class WPIMAdmin extends WPIMCore {
 			$class   = ( ! $label['is_used'] ) ? ' class="not_used"' : '';
 			$default = ( isset( $label['default'] ) ) ? $label['default'] : $label['label']; ?>
           <tr<?php esc_attr_e( $class ); ?>>
-            <th><label for="<?php esc_attr_e( $field ); ?>"><?php esc_attr_e( $default ); ?>:</label></th>
+            <th><label for="<?php esc_attr_e( $field ); ?>"><?php esc_attr_e( rtrim( $default, ': ' ) ); ?></label></th>
 			  <?php if ( $edit ) {
 				  $in_use_checked          = ( $label['is_used'] ) ? ' checked' : '';
 				  $include_in_sort_checked = ( $label['include_in_sort'] ) ? ' checked' : '';
@@ -1842,8 +1939,15 @@ final class WPIMAdmin extends WPIMCore {
                   <label
                       for="include_in_sort<?php esc_attr_e( $field ); ?>"><?php self::_e( 'Include In Sort' ); ?></label>
                 </td>
-			  <?php } else { ?>
+			  <?php } else {
+				  $is_public = ( $label['is_used'] || in_array( $field, $always_on ) ); ?>
                 <td><span><?php echo esc_attr( $label['label'] ); ?></span></td>
+                <td><?php if ( $is_public ) { ?>
+                    <span class="wpim-tag wpim-tag--on"><?php self::_e( 'Shown' ); ?></span>
+                    <?php } else { ?>
+                    <span class="wpim-tag wpim-tag--off"><?php self::_e( 'Hidden' ); ?></span>
+                    <?php } ?>
+                </td>
 			  <?php }
 			  } ?>
         </table>
@@ -1960,10 +2064,15 @@ final class WPIMAdmin extends WPIMCore {
 						<?php echo self::dropdown_yesno( 'is_active[]', $hide_items ); ?>
                     </td>
 				  <?php } else {
-					  $status_hidden = ( $status['is_active'] ) ? '' : self::__( ' hide items' ); ?>
+					  ?>
                     <td><?php echo esc_attr( $status['status_name'] ); ?></td>
                     <td><?php echo esc_textarea( $status['status_description'] ); ?></td>
-                    <td><?php esc_attr_e( $status_hidden ); ?></td>
+                    <td><?php if ( $status['is_active'] ) { ?>
+                        <span class="wpim-tag wpim-tag--on"><?php self::_e( 'Items visible' ); ?></span>
+                        <?php } else { ?>
+                        <span class="wpim-tag wpim-tag--off"><?php self::_e( 'Items hidden' ); ?></span>
+                        <?php } ?>
+                    </td>
 				  <?php }
 				  ?>
               </tr>
@@ -3333,6 +3442,39 @@ final class WPIMAdmin extends WPIMCore {
 	/**
 	 * Add Ons page
 	 */
+	/**
+	 * Map an add-on title to its bundled icon (images/addons/*.png).
+	 *
+	 * Keyword match on the title so it is robust to item-id changes. The
+	 * specific "advanced ..." variants are listed before generic keys.
+	 * Returns the icon URL, or FALSE to fall back to the remote image.
+	 */
+	private static function add_on_icon_url( $title ) {
+		$map = [
+			'advanced inventory' => 'advanced-inventory-manager',
+			'advanced search'    => 'advanced-search',
+			'advanced user'      => 'advanced-user',
+			'analytics'          => 'analytics',
+			'barcode'            => 'barcode',
+			'bar code'           => 'barcode',
+			'bulk'               => 'bulk-item-manager',
+			'import'             => 'import-export',
+			'ledger'             => 'ledger',
+			'location'           => 'locations',
+			'notification'       => 'notifications',
+			'qr'                 => 'qr-code',
+			'reserv'             => 'reserve-cart',
+		];
+		$t = strtolower( $title );
+		foreach ( $map AS $needle => $slug ) {
+			if ( strpos( $t, $needle ) !== FALSE && file_exists( self::$path . 'images/addons/' . $slug . '.png' ) ) {
+				return self::$url . 'images/addons/' . $slug . '.png';
+			}
+		}
+
+		return FALSE;
+	}
+
 	public static function wpim_manage_add_ons() {
 
 		self::$self_url = 'admin.php?page=' . __FUNCTION__;
@@ -3343,13 +3485,16 @@ final class WPIMAdmin extends WPIMCore {
 
 		echo sprintf( self::__( '%sUpgrade to %sWP Inventory Pro%s to use these add ons!%s' ), '<p>', '<a href="https://www.wpinventory.com" target="_blank">', '</a>', '</p>' );
 
+		echo '<div class="wpim-addons-grid">';
 		foreach ( $add_ons AS $add_on ) {
 			echo '<div class="add_on">';
 			echo '<h3>' . $add_on->title;
 			echo '<span style="font-size: 11px; color: #ccc; float: right">' . $add_on->item_id . '</span>';
 			echo '</h3>';
-			if ( ! empty( $add_on->image ) ) {
-				echo '<div class="image"><img src="' . $add_on->image . '"></div>';
+			$icon = self::add_on_icon_url( $add_on->title );
+			$img  = ( $icon ) ? $icon : $add_on->image;
+			if ( ! empty( $img ) ) {
+				echo '<div class="image"><img src="' . esc_url( $img ) . '"></div>';
 			}
 			echo '<div class="description">' . $add_on->description . '</div>';
 			echo '<p class="learn_more">';
@@ -3362,6 +3507,7 @@ final class WPIMAdmin extends WPIMCore {
 			echo '</p>';
 			echo '</div>';
 		}
+		echo '</div>';
 
 		self::admin_footer();
 	}

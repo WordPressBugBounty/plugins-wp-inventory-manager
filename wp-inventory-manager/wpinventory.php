@@ -4,7 +4,7 @@
  * Plugin Name:    WP Inventory
  * Plugin URI:    http://www.wpinventory.com
  * Description:    Manage and display your products just like a shopping cart, but without the cart.
- * Version:        2.4.3
+ * Version:        2.5.0
  * Author:        WP Inventory Manager
  * Author URI:    http://www.wpinventory.com/
  * Text Domain:    wpinventory
@@ -169,6 +169,40 @@ if ( ! function_exists( 'wpim_fs' ) ) {
 	add_filter( 'wpim_suppress_admin_menu_add_ons', '__return_true' );
 	add_filter( 'wpim_suppress_promos', '__return_true' );
 
+	/**
+	 * Send the suppressed pages to the Freemius marketplace instead of a 403.
+	 *
+	 * Unregistering a submenu means WordPress answers "Sorry, you are not allowed to access this
+	 * page" for it. Anyone with a bookmark, or following a link from the docs or an older email,
+	 * hits that dead end — the pages existed and worked before the SDK was switched on. Redirect
+	 * to Freemius's add-ons page, which is where that intent now leads.
+	 *
+	 * Hooked on both admin_init and admin_page_access_denied: the former catches the request
+	 * before WordPress rejects it, the latter is the backstop if core's ordering ever changes.
+	 */
+	$wpim_fs_redirect_suppressed = function () {
+		if ( empty( $_GET['page'] ) || ! function_exists( 'wpim_fs' ) ) {
+			return;
+		}
+
+		$page = sanitize_key( wp_unslash( $_GET['page'] ) );
+
+		if ( 'wpim_manage_add_ons' !== $page && 0 !== strpos( $page, 'wpim_promote_' ) ) {
+			return;
+		}
+
+		if ( ! method_exists( wpim_fs(), 'get_addons_url' ) ) {
+			return;
+		}
+
+		wp_safe_redirect( wpim_fs()->get_addons_url(), 302 );
+		exit;
+	};
+
+	add_action( 'admin_init', $wpim_fs_redirect_suppressed );
+	add_action( 'admin_page_access_denied', $wpim_fs_redirect_suppressed );
+	unset( $wpim_fs_redirect_suppressed );
+
 	// Skip opt-in modal for users who already consented via the legacy system.
 	$wpim_existing = get_option( 'wpim_registered' );
 	if ( ! empty( $wpim_existing['email'] ) ) {
@@ -184,7 +218,7 @@ if ( ! function_exists( 'wpim_fs' ) ) {
 // the file is compiled, which fatals before any runtime guard above can run.
 if ( ! class_exists( 'WPIMConstants', FALSE ) ) :
 abstract class WPIMConstants {
-	const VERSION = '2.4.3';
+	const VERSION = '2.5.0';
 	const MIN_PHP_VERSION = '5.6';
 	const SHORTCODE = 'wpinventory';
 	const SETTINGS = 'wpinventory_settings';
