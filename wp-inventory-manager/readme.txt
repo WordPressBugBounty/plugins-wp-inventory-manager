@@ -3,7 +3,7 @@ Contributors: chuck1982
 Tags: inventory, inventory manager, product catalog, stock management, woocommerce alternative
 Requires at least: 3.5.0
 Tested up to: 7.0
-Stable Tag: 2.5.0
+Stable tag: 2.5.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -170,6 +170,9 @@ Full documentation is available at [https://www.wpinventory.com/documentation/us
 
 
 == Changelog ==
+= 2.5.1 =
+* Fix: if you had not yet answered the opt-in screen, links to the old add-ons and upgrade pages led to an "access denied" message. They now take you to the opt-in screen, which is what needs answering before those pages will open.
+
 = 2.5.0 =
 * New: refreshed admin design throughout — new colour palette, cleaner tables and lists, and tidier labels and statuses screens
 * New: the Status screen now opens with an at-a-glance summary of your inventory — total items, active, categories, low stock and out of stock

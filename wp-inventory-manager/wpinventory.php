@@ -4,7 +4,7 @@
  * Plugin Name:    WP Inventory
  * Plugin URI:    http://www.wpinventory.com
  * Description:    Manage and display your products just like a shopping cart, but without the cart.
- * Version:        2.5.0
+ * Version:        2.5.1
  * Author:        WP Inventory Manager
  * Author URI:    http://www.wpinventory.com/
  * Text Domain:    wpinventory
@@ -195,6 +195,20 @@ if ( ! function_exists( 'wpim_fs' ) ) {
 			return;
 		}
 
+		// Until the opt-in has been answered Freemius answers 403 for its own pages — add-ons,
+		// pricing and account alike — exactly as WordPress does for the suppressed ones. Sending
+		// the user there would swap one dead end for another, so route them to the opt-in screen,
+		// which is the thing that actually has to be answered before any marketplace page renders.
+		// Answering it either way clears this: registering or skipping both leave activation mode.
+		if ( method_exists( wpim_fs(), 'is_activation_mode' ) && wpim_fs()->is_activation_mode() ) {
+			$wpim_optin_url = method_exists( wpim_fs(), 'get_activation_url' )
+				? wpim_fs()->get_activation_url()
+				: admin_url( 'admin.php?page=' . WPIMConstants::MENU );
+
+			wp_safe_redirect( $wpim_optin_url, 302 );
+			exit;
+		}
+
 		wp_safe_redirect( wpim_fs()->get_addons_url(), 302 );
 		exit;
 	};
@@ -218,7 +232,7 @@ if ( ! function_exists( 'wpim_fs' ) ) {
 // the file is compiled, which fatals before any runtime guard above can run.
 if ( ! class_exists( 'WPIMConstants', FALSE ) ) :
 abstract class WPIMConstants {
-	const VERSION = '2.5.0';
+	const VERSION = '2.5.1';
 	const MIN_PHP_VERSION = '5.6';
 	const SHORTCODE = 'wpinventory';
 	const SETTINGS = 'wpinventory_settings';
