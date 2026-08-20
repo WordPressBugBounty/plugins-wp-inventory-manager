@@ -770,10 +770,11 @@ class WPIMDB extends WPIMCore {
 
 		$where = html_entity_decode( $where );
 
-		$where = str_ireplace( [ ';' ], '', $where );
-
 		$labels = self::get_labels();
 
+		// Map field labels / partial names ("Qty", "quantity") to real column names
+		// ("inventory_quantity") BEFORE validation so the whitelist is checked against
+		// actual columns.
 		foreach ( $labels AS $field => $info ) {
 			$label = $info['label'];
 			$part  = str_ireplace( 'inventory_', '', $field );
@@ -787,11 +788,26 @@ class WPIMDB extends WPIMCore {
 				$regex = preg_quote( $label, '/' );
 				$where = preg_replace( "/\b{$regex}\b/i", $field, $where );
 			}
+		}
 
-			if ( trim( $field ) ) {
-				if ( $info['is_numeric'] && preg_match( "/\b{$field}\b/", $where ) ) {
-					$where = preg_replace( "/\b{$field}\b/", "CAST({$field} AS DECIMAL(10,2))", $where );
-				}
+		// SECURITY (CVE-2026-17607): the `where` value is user-supplied (shortcode
+		// attribute and/or request override) and is concatenated into a raw SELECT.
+		// Validate it against a strict token whitelist - only known columns, literals,
+		// comparison operators and boolean connectors are permitted. Anything else
+		// (functions, sub-queries, UNION/SELECT, comments, semicolons, backticks, ...)
+		// causes the ENTIRE clause to be discarded. html_entity_decode() + semicolon
+		// stripping alone are NOT sufficient - see the vulnerability report.
+		$where = $this->validate_custom_where( $where, $labels );
+
+		if ( '' === $where ) {
+			return '';
+		}
+
+		// Cast numeric columns for correct numeric comparison (applied AFTER validation,
+		// so the CAST()/AS/DECIMAL tokens we add here never have to be whitelisted).
+		foreach ( $labels AS $field => $info ) {
+			if ( ! empty( $info['is_numeric'] ) && trim( $field ) && preg_match( "/\b{$field}\b/", $where ) ) {
+				$where = preg_replace( "/\b{$field}\b/", "CAST({$field} AS DECIMAL(10,2))", $where );
 			}
 		}
 
@@ -801,6 +817,112 @@ class WPIMDB extends WPIMCore {
 		}
 
 		return $where;
+	}
+
+	/**
+	 * Strict allow-list validator for the custom `where` shortcode expression.
+	 *
+	 * The expression is tokenised and every token must be one of:
+	 *   - a known inventory column (optionally table-qualified: i./c./s./u.)
+	 *   - a numeric literal ( 5, -3, 12.50 )
+	 *   - a single-quoted string literal ( 'red', '%widget%' ) - internal quotes
+	 *     must be doubled, matching SQL string-literal rules, so the token can never
+	 *     break out of its quotes
+	 *   - a comparison operator: =, !=, <>, <, >, <=, >=
+	 *   - a boolean/relational keyword: AND OR NOT LIKE IN IS NULL BETWEEN
+	 *   - parentheses or a comma
+	 *
+	 * The first unrecognised token (a function call such as SLEEP()/BENCHMARK(),
+	 * a comment marker -- / # / /* , a semicolon, backtick, UNION/SELECT keyword,
+	 * an unknown identifier, etc.) causes the whole clause to be rejected - the
+	 * method returns an empty string and the caller drops the clause entirely.
+	 *
+	 * @param string $where  Expression with labels already mapped to column names.
+	 * @param array  $labels Result of get_labels(), keyed by real column name.
+	 *
+	 * @return string Normalised, safe expression, or '' if anything is disallowed.
+	 */
+	protected function validate_custom_where( $where, $labels ) {
+		$where = trim( (string) $where );
+		if ( '' === $where ) {
+			return '';
+		}
+
+		// Columns that may legitimately appear in a front-end filter.
+		$allowed = [];
+		foreach ( $labels AS $field => $info ) {
+			$allowed[ strtolower( $field ) ] = TRUE;
+		}
+		foreach ( [
+			'category_id',
+			'category_name',
+			'category_slug',
+			'category',
+			'status',
+			'status_id',
+			'status_name',
+			'is_active',
+			'user_id',
+			'inventory_id',
+		] AS $extra ) {
+			$allowed[ $extra ] = TRUE;
+		}
+
+		$keywords = [ 'AND', 'OR', 'NOT', 'LIKE', 'IN', 'IS', 'NULL', 'BETWEEN' ];
+
+		$normalized = '';
+		$remaining  = $where;
+
+		while ( '' !== $remaining ) {
+			if ( preg_match( '/^\s+/', $remaining, $m ) ) {
+				$normalized .= ' ';
+			} elseif ( preg_match( '/^(<=|>=|<>|!=|=|<|>)/', $remaining, $m ) ) {
+				$normalized .= $m[0];
+			} elseif ( preg_match( '/^[(),]/', $remaining, $m ) ) {
+				$normalized .= $m[0];
+			} elseif ( preg_match( "/^'(?:[^']|'')*'/", $remaining, $m ) ) {
+				// Fully-balanced single-quoted literal - safe to keep verbatim.
+				$normalized .= $m[0];
+			} elseif ( preg_match( '/^-?\d+(?:\.\d+)?/', $remaining, $m ) ) {
+				$normalized .= $m[0];
+			} elseif ( preg_match( '/^[A-Za-z_][A-Za-z0-9_.]*/', $remaining, $m ) ) {
+				$token = $m[0];
+				$upper = strtoupper( $token );
+				if ( in_array( $upper, $keywords, TRUE ) ) {
+					$normalized .= $upper;
+				} elseif ( $this->is_allowed_where_column( $token, $allowed ) ) {
+					$normalized .= $token;
+				} else {
+					self::debug_log( 'WPIM: discarded custom where clause (disallowed identifier "' . $token . '")' );
+
+					return '';
+				}
+			} else {
+				self::debug_log( 'WPIM: discarded custom where clause (illegal token near "' . substr( $remaining, 0, 16 ) . '")' );
+
+				return '';
+			}
+
+			$remaining = substr( $remaining, strlen( $m[0] ) );
+		}
+
+		return trim( $normalized );
+	}
+
+	/**
+	 * Whether an identifier token references a permitted column. Accepts an optional
+	 * single-letter table alias prefix (i./c./s./u.) used by the item query joins.
+	 *
+	 * @param string $token
+	 * @param array  $allowed Set of lower-cased allowed column names (keys).
+	 *
+	 * @return bool
+	 */
+	protected function is_allowed_where_column( $token, $allowed ) {
+		$col = strtolower( $token );
+		$col = preg_replace( '/^[a-z]\./', '', $col );
+
+		return isset( $allowed[ $col ] );
 	}
 
 	protected function get_error() {

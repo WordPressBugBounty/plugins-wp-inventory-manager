@@ -204,11 +204,15 @@ class WPIMItem extends WPIMDB {
 		$bypass_custom_where = apply_filters( 'wpim_item_bypass_custom_where', ! empty( $args['inventory_id'] ) );
 		if ( ! empty( $args['where'] ) && ! $bypass_custom_where ) {
 			$args['where'] = $this->parse_custom_where( $args['where'], $args );
-			if ( FALSE !== stripos( $args['where'], 'category' ) ) {
-				$args['include_category'] = TRUE;
-			}
+			// parse_custom_where() returns '' when the clause fails validation; only
+			// append when something safe survived, otherwise we would emit a dangling AND.
+			if ( ! empty( $args['where'] ) ) {
+				if ( FALSE !== stripos( $args['where'], 'category' ) ) {
+					$args['include_category'] = TRUE;
+				}
 
-			$where = $this->append_where( $where, $args['where'] );
+				$where = $this->append_where( $where, $args['where'] );
+			}
 		}
 
 		if ( (int) $args['include_category'] ) {

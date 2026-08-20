@@ -2,8 +2,8 @@
 Contributors: chuck1982
 Tags: inventory, inventory manager, product catalog, stock management, woocommerce alternative
 Requires at least: 3.5.0
-Tested up to: 7.0
-Stable tag: 2.5.1
+Tested up to: 7.1
+Stable Tag: 2.5.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -170,6 +170,9 @@ Full documentation is available at [https://www.wpinventory.com/documentation/us
 
 
 == Changelog ==
+= 2.5.2 =
+* Security: hardened the `where` shortcode attribute against SQL injection (CVE-2026-17607). The filter expression is now validated against a strict allow-list of known fields, literals and comparison operators; anything else is rejected. Legitimate filters such as `[wpinventory where="quantity <= 5 OR quantity_reserved >= 2"]` continue to work unchanged.
+
 = 2.5.1 =
 * Fix: if you had not yet answered the opt-in screen, links to the old add-ons and upgrade pages led to an "access denied" message. They now take you to the opt-in screen, which is what needs answering before those pages will open.
 
@@ -746,6 +749,9 @@ Full documentation is available at [https://www.wpinventory.com/documentation/us
     * Initial release with license system
 
 == Upgrade Notice ==
+
+= 2.5.2 =
+Security release: fixes a SQL injection vulnerability (CVE-2026-17607) in the `where` shortcode attribute. All sites should update.
 
 = 2.0.3 =
 2.0.3 Contains an update that could break your site if you use shortcodes with arguments that contain commas (eg, [wpinventory inventory_id="1,2,3"])
