@@ -3,7 +3,7 @@ Contributors: chuck1982
 Tags: inventory, inventory manager, product catalog, stock management, woocommerce alternative
 Requires at least: 3.5.0
 Tested up to: 7.1
-Stable Tag: 2.5.2
+Stable Tag: 2.5.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -170,6 +170,9 @@ Full documentation is available at [https://www.wpinventory.com/documentation/us
 
 
 == Changelog ==
+= 2.5.3 =
+* Fix: item descriptions no longer lose their formatting when you save. The save routine read the description twice and sanitized it as plain text both times, which stripped every tag the editor produced. Both reads now keep post-safe HTML, so bold, italics, lists, links and headings survive the save. The partial fix in 2.3.6 was undone by the second read, which is why the problem persisted.
+
 = 2.5.2 =
 * Security: hardened the `where` shortcode attribute against SQL injection (CVE-2026-17607). The filter expression is now validated against a strict allow-list of known fields, literals and comparison operators; anything else is rejected. Legitimate filters such as `[wpinventory where="quantity <= 5 OR quantity_reserved >= 2"]` continue to work unchanged.
 
@@ -749,6 +752,9 @@ Full documentation is available at [https://www.wpinventory.com/documentation/us
     * Initial release with license system
 
 == Upgrade Notice ==
+
+= 2.5.3 =
+Fixes item descriptions losing their HTML formatting when saved. If you edited any items on 2.4.0 through 2.5.2, re-enter their formatting after updating.
 
 = 2.5.2 =
 Security release: fixes a SQL injection vulnerability (CVE-2026-17607) in the `where` shortcode attribute. All sites should update.

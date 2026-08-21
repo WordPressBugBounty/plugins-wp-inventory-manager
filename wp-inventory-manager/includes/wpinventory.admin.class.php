@@ -1511,7 +1511,7 @@ final class WPIMAdmin extends WPIMCore {
 		$inventory_id                = self::request( 'inventory_id' );
 		$inventory_name              = self::request( 'inventory_name' );
 		$inventory_number            = self::request( 'inventory_number' );
-		$inventory_description       = self::request( 'inventory_description' );
+		$inventory_description       = self::request( 'inventory_description', '', 'wysiwyg' );
 		$inventory_size              = self::request( 'inventory_size' );
 		$inventory_manufacturer      = self::request( 'inventory_manufacturer' );
 		$inventory_make              = self::request( 'inventory_make' );
@@ -1529,7 +1529,7 @@ final class WPIMAdmin extends WPIMCore {
 		// Rather than extract $_POST, get the specific fields we require
 		$fields = self::get_labels();
 		foreach ( $fields AS $field => $labels ) {
-			${$field} = self::request( $field );
+			${$field} = self::request( $field, '', 'wysiwyg' );
 		}
 
 		$inventory_id = self::request( "inventory_item_id" );
