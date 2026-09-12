@@ -134,8 +134,44 @@ public static $year;
 		return $version;
 	}
 
+	/**
+	 * Where to send someone who needs Pro.
+	 *
+	 * A site running the Freemius SDK buys through Freemius, so point at its pricing
+	 * screen; a site without the SDK is on the website route and buys there. Same shop
+	 * selection as WPIMAdmin::status_quick_actions() - the two must not disagree, or a
+	 * wordpress.org user is sent to a shop that cannot license the plugin they have.
+	 *
+	 * @return string
+	 */
+	public static function upgrade_url() {
+		if ( function_exists( 'wpim_fs' ) && method_exists( wpim_fs(), 'pricing_url' ) ) {
+			return wpim_fs()->pricing_url();
+		}
+
+		return 'https://www.wpinventory.com/wp-inventory-license/';
+	}
+
+	/**
+	 * Opening <a> tag for an "upgrade to Pro" link.
+	 *
+	 * Only the website shop is off-site, so only that one opens in a new tab; the
+	 * Freemius pricing screen is a wp-admin page and should not.
+	 *
+	 * @return string
+	 */
+	public static function upgrade_link_tag() {
+		$url = self::upgrade_url();
+
+		$target = ( function_exists( 'wpim_fs' ) && method_exists( wpim_fs(), 'pricing_url' ) )
+			? ''
+			: ' target="_blank" rel="noopener"';
+
+		return '<a href="' . esc_url( $url ) . '"' . $target . '>';
+	}
+
 	public static function check_version( $min_version, $message ) {
-		self::$plugin_errors[] = sprintf(self::__( 'The %s%s%s add on requires %sWP Inventory Pro%s.' ), '<strong>', $message, '</strong>', '<a href="https://www.wpinventory.com/wp-inventory-license/" target="_blank">', '</a>');
+		self::$plugin_errors[] = sprintf(self::__( 'The %s%s%s add on requires %sWP Inventory Pro%s.' ), '<strong>', $message, '</strong>', self::upgrade_link_tag(), '</a>');
 		return FALSE;
 	}
 

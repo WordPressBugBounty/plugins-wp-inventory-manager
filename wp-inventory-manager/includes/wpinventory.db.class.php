@@ -826,8 +826,8 @@ class WPIMDB extends WPIMCore {
 	 *   - a known inventory column (optionally table-qualified: i./c./s./u.)
 	 *   - a numeric literal ( 5, -3, 12.50 )
 	 *   - a single-quoted string literal ( 'red', '%widget%' ) - internal quotes
-	 *     must be doubled, matching SQL string-literal rules, so the token can never
-	 *     break out of its quotes
+	 *     must be doubled ('') and backslashes are rejected outright (CVE-2026-80470),
+	 *     so the token can never break out of its quotes under MySQL/MariaDB rules
 	 *   - a comparison operator: =, !=, <>, <, >, <=, >=
 	 *   - a boolean/relational keyword: AND OR NOT LIKE IN IS NULL BETWEEN
 	 *   - parentheses or a comma
@@ -880,8 +880,14 @@ class WPIMDB extends WPIMCore {
 				$normalized .= $m[0];
 			} elseif ( preg_match( '/^[(),]/', $remaining, $m ) ) {
 				$normalized .= $m[0];
-			} elseif ( preg_match( "/^'(?:[^']|'')*'/", $remaining, $m ) ) {
+			} elseif ( preg_match( "/^'(?:[^'\\\\]|'')*'/", $remaining, $m ) ) {
 				// Fully-balanced single-quoted literal - safe to keep verbatim.
+				// SECURITY (CVE-2026-80470): backslashes are NOT permitted inside a
+				// literal. MySQL/MariaDB treat \' as an escaped quote, so allowing
+				// backslashes let an attacker close the string early (e.g. 'x\'')
+				// and append a UNION while this validator still thought it was one
+				// balanced literal. [^'\\] makes any backslash an illegal token,
+				// which discards the whole clause.
 				$normalized .= $m[0];
 			} elseif ( preg_match( '/^-?\d+(?:\.\d+)?/', $remaining, $m ) ) {
 				$normalized .= $m[0];

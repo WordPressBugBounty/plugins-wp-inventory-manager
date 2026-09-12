@@ -3,7 +3,7 @@ Contributors: chuck1982
 Tags: inventory, inventory manager, product catalog, stock management, woocommerce alternative
 Requires at least: 3.5.0
 Tested up to: 7.1
-Stable Tag: 2.5.3
+Stable Tag: 2.5.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -154,22 +154,22 @@ Full documentation is available at [https://www.wpinventory.com/documentation/us
 
 == Screenshots ==
 
-1. Dashboard list of items.
+1. The Status dashboard: totals, low stock and out of stock at a glance, with one-click actions for the jobs you do most.
 
-2. Inventory categories. Add as many as you like.
+2. Manage Inventory Items. Sort, search and filter a catalogue of any size, with category and stock on every row.
 
-3. Status page. Useful to help you understand the health of your system. Check this page if you are having problems.
+3. Manage Categories. Organise inventory into as many categories as you need, in the order you want them shown.
 
-4. Display settings. Set the fields that are visible on every view.
+4. Manage Labels. Rename every field to match how your business already talks about its stock.
 
-5. Settings page tabs. Navigate this section to properly configure your WP Inventory Manager.
-
-6. Send messages via the built in support tab.
-
-7. Beautiful two column layout design if using the default styles.
+5. Manage Settings. Permissions, date and currency formats, reserve behaviour and image handling, all in one place.
 
 
 == Changelog ==
+= 2.5.4 =
+* Security: fixed an unauthenticated SQL injection in the `where` shortcode attribute (CVE-2026-80470) that bypassed the 2.5.2 filter. String literals in the filter now reject backslash escapes, closing a parser mismatch that let a crafted value break out of its quotes. The `where` clause can also no longer be supplied or overridden from the request (?where=), so it is only ever the trusted shortcode attribute. Legitimate filters continue to work unchanged.
+* Fix: the "upgrade to Pro" links now point to the shop your site actually uses.
+
 = 2.5.3 =
 * Fix: item descriptions no longer lose their formatting when you save. The save routine read the description twice and sanitized it as plain text both times, which stripped every tag the editor produced. Both reads now keep post-safe HTML, so bold, italics, lists, links and headings survive the save. The partial fix in 2.3.6 was undone by the second read, which is why the problem persisted.
 
@@ -752,6 +752,9 @@ Full documentation is available at [https://www.wpinventory.com/documentation/us
     * Initial release with license system
 
 == Upgrade Notice ==
+
+= 2.5.4 =
+Security release: fixes an unauthenticated SQL injection (CVE-2026-80470) in the `where` shortcode attribute. All sites should update immediately.
 
 = 2.5.3 =
 Fixes item descriptions losing their HTML formatting when saved. If you edited any items on 2.4.0 through 2.5.2, re-enter their formatting after updating.

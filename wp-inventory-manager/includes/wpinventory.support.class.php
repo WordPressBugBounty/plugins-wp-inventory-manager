@@ -34,7 +34,7 @@ final class WPIMSupport extends WPIMCore {
 		echo sprintf( self::__( 'Thank you for being a user of WP Inventory!
 			<br>Please understand that support is provided to licensed WP Inventory Pro users.  
 			<br>You are currently using the free version of WP Inventory, so please consider %supgrading to Pro before requesting support%s.' ),
-			'<a target="_blank" href="https://www.wpinventory.com/wp-inventory-license">', '</a>' );
+			WPIMCore::upgrade_link_tag(), '</a>' );
 		echo '</p></div>';
 
 		echo '<div>';

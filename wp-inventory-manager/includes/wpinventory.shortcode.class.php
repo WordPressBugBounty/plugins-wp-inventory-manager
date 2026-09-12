@@ -78,6 +78,14 @@ class WPIMShortcode extends WPIMCore {
 		}
 
 		foreach ( self::$args AS $key => $value ) {
+			// SECURITY (CVE-2026-80470): the raw SQL `where` clause - and its munged
+			// continuation fragments, which arrive as integer-keyed args - must never be
+			// supplied or overridden from the request. `where` is only ever a trusted
+			// shortcode attribute; accepting it from $_GET/$_POST is what made the SQL
+			// injection reachable unauthenticated.
+			if ( 'where' === $key || is_numeric( $key ) ) {
+				continue;
+			}
 			if ( self::request( $key ) ) {
 				self::$args[ $key ] = self::request( $key );
 			}
