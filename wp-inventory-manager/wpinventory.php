@@ -4,7 +4,7 @@
  * Plugin Name:    WP Inventory
  * Plugin URI:    http://www.wpinventory.com
  * Description:    Manage and display your products just like a shopping cart, but without the cart.
- * Version:        2.5.4
+ * Version:        2.5.5
  * Author:        WP Inventory Manager
  * Author URI:    http://www.wpinventory.com/
  * Text Domain:    wpinventory
@@ -169,6 +169,76 @@ if ( ! function_exists( 'wpim_fs' ) ) {
 	add_filter( 'wpim_suppress_admin_menu_add_ons', '__return_true' );
 	add_filter( 'wpim_suppress_promos', '__return_true' );
 
+	// All Access is a Freemius bundle sold alongside this product. Its identifiers live here
+	// rather than being spelled out at each call site; the price matches what the Freemius
+	// dashboard charges and what wpinventory.com lists.
+	if ( ! defined( 'WPIM_ALL_ACCESS_BUNDLE_ID' ) ) {
+		define( 'WPIM_ALL_ACCESS_BUNDLE_ID', '35596' );
+		define( 'WPIM_ALL_ACCESS_PLAN_ID', '60324' );
+		define( 'WPIM_ALL_ACCESS_PRICE', '$199' );
+	}
+
+	require_once dirname( __FILE__ ) . '/includes/wpinventory.all-access.php';
+
+	/**
+	 * Show each paid plan's yearly price as one line.
+	 *
+	 * By default the pricing app renders the annual price as a monthly equivalent with a
+	 * struck-through "Normally $X / mo" above it and "Billed Annually" below, three lines
+	 * for one number. With only annual plans on sale that is noise; a customer comparing
+	 * Pro and All Access wants the two yearly figures side by side.
+	 */
+	wpim_fs()->add_filter( 'pricing/show_annual_in_monthly', '__return_false' );
+
+	/**
+	 * Put All Access on the pricing page, beside Pro.
+	 *
+	 * All Access is a Freemius bundle, and the SDK's pricing app has no notion of one: its
+	 * data carries only this product's own plans, and the add-ons page fetches add-ons only.
+	 * So the bundle is never offered to a free user anywhere in the plugin, even though it is
+	 * live and purchasable at its own checkout. The script clones the Pro card and swaps the
+	 * text, price and button, so the bundle is presented exactly the way Freemius presents Pro.
+	 *
+	 * Only for sites without a licence. Once a licence exists Freemius removes the pricing
+	 * page from the menu anyway, and a paying customer must never be asked to buy again.
+	 */
+	add_action( 'admin_enqueue_scripts', function () {
+		if ( ! function_exists( 'wpim_fs' ) || ! wpim_fs()->is_admin_page( 'pricing' ) ) {
+			return;
+		}
+
+		if ( wpim_fs()->has_active_valid_license() || wpim_fs()->can_use_premium_code() ) {
+			return;
+		}
+
+		wp_enqueue_script(
+			'wpinventory-all-access',
+			plugins_url( 'js/wpinventory-all-access.js', __FILE__ ),
+			array(),
+			WPIMConstants::VERSION,
+			true
+		);
+
+		wp_localize_script( 'wpinventory-all-access', 'wpimAllAccess', array(
+			'checkoutUrl'   => wpim_all_access_url(),
+			'proPlanName'   => 'pro',
+			'title'         => __( 'All Access', 'wpinventory' ),
+			'description'   => __( 'Every add-on, unlimited sites.', 'wpinventory' ),
+			'undiscounted'  => '', // the discount line is Freemius's monthly x 12; not shown for the bundle
+			'priceInteger'  => '199',
+			'priceFraction' => '',
+			'priceLine'     => sprintf( __( '%s / year', 'wpinventory' ), WPIM_ALL_ACCESS_PRICE ),
+			'sitesLabel'    => __( 'Unlimited Sites', 'wpinventory' ),
+			'buttonText'    => __( 'Get All Access', 'wpinventory' ),
+			'features'      => array(
+				__( 'Everything in Pro', 'wpinventory' ),
+				__( 'Every add-on included', 'wpinventory' ),
+				__( 'Unlimited sites', 'wpinventory' ),
+			),
+			'fallbackText'  => sprintf( __( 'Want every add-on on unlimited sites? All Access is %s a year.', 'wpinventory' ), WPIM_ALL_ACCESS_PRICE ),
+		) );
+	} );
+
 	/**
 	 * Send the suppressed pages to the Freemius marketplace instead of a 403.
 	 *
@@ -232,7 +302,7 @@ if ( ! function_exists( 'wpim_fs' ) ) {
 // the file is compiled, which fatals before any runtime guard above can run.
 if ( ! class_exists( 'WPIMConstants', FALSE ) ) :
 abstract class WPIMConstants {
-	const VERSION = '2.5.4';
+	const VERSION = '2.5.5';
 	const MIN_PHP_VERSION = '5.6';
 	const SHORTCODE = 'wpinventory';
 	const SETTINGS = 'wpinventory_settings';

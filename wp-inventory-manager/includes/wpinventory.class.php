@@ -210,7 +210,11 @@ public static $year;
 		// this has to go first.
 		if ( 'array' == $type || is_array( $var ) ) {
 			$func = ( 'textarea' == $type ) ? 'sanitize_textarea_field' : 'sanitize_text_field';
-			return array_map( $func, $var );
+			// map_deep() walks nested arrays and sanitizes the leaves. array_map() only
+			// touched the top level, and sanitize_text_field() returns '' for an array,
+			// so nested input such as wpim_asf[category_name][Lighting] or
+			// criteria[0][field] silently arrived as an empty string.
+			return map_deep( $var, $func );
 		}
 
 		// Email Inputs

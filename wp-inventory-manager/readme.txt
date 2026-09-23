@@ -3,7 +3,7 @@ Contributors: chuck1982
 Tags: inventory, inventory manager, product catalog, stock management, woocommerce alternative
 Requires at least: 3.5.0
 Tested up to: 7.1
-Stable Tag: 2.5.4
+Stable Tag: 2.5.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -166,6 +166,11 @@ Full documentation is available at [https://www.wpinventory.com/documentation/us
 
 
 == Changelog ==
+= 2.5.5 =
+* New: the Upgrade page now shows All Access beside Pro, so you can compare the two plans in one place. The Add-Ons page mentions it too.
+* Fix: Advanced Search checkboxes now filter results. Previously the selections were lost on the way in and every item was returned.
+* Fix: add-ons that submit grouped rows of data now receive them intact.
+* Tweak: yearly prices on the Upgrade page are shown as one figure instead of a monthly breakdown.
 = 2.5.4 =
 * Security: fixed an unauthenticated SQL injection in the `where` shortcode attribute (CVE-2026-80470) that bypassed the 2.5.2 filter. String literals in the filter now reject backslash escapes, closing a parser mismatch that let a crafted value break out of its quotes. The `where` clause can also no longer be supplied or overridden from the request (?where=), so it is only ever the trusted shortcode attribute. Legitimate filters continue to work unchanged.
 * Fix: the "upgrade to Pro" links now point to the shop your site actually uses.
@@ -752,6 +757,9 @@ Full documentation is available at [https://www.wpinventory.com/documentation/us
     * Initial release with license system
 
 == Upgrade Notice ==
+
+= 2.5.5 =
+Adds All Access to the Upgrade page and fixes Advanced Search checkbox filters.
 
 = 2.5.4 =
 Security release: fixes an unauthenticated SQL injection (CVE-2026-80470) in the `where` shortcode attribute. All sites should update immediately.
