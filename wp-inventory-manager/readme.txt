@@ -3,7 +3,7 @@ Contributors: chuck1982
 Tags: inventory, inventory manager, product catalog, stock management, woocommerce alternative
 Requires at least: 3.5.0
 Tested up to: 7.1
-Stable Tag: 2.5.5
+Stable Tag: 2.5.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -166,6 +166,9 @@ Full documentation is available at [https://www.wpinventory.com/documentation/us
 
 
 == Changelog ==
+= 2.5.6 =
+* Security: fixed an authenticated (Contributor+) SQL injection in the `sort_order` attribute of the `[wpinventory_categories]` shortcode (CVE-2026-76005). The sort order is now checked against the list of category columns, with an optional ASC or DESC, and anything else falls back to sorting by name. Legitimate sort orders continue to work unchanged.
+
 = 2.5.5 =
 * New: the Upgrade page now shows All Access beside Pro, so you can compare the two plans in one place. The Add-Ons page mentions it too.
 * Fix: Advanced Search checkboxes now filter results. Previously the selections were lost on the way in and every item was returned.
@@ -757,6 +760,9 @@ Full documentation is available at [https://www.wpinventory.com/documentation/us
     * Initial release with license system
 
 == Upgrade Notice ==
+
+= 2.5.6 =
+Security release: fixes a SQL injection (CVE-2026-76005) in the `sort_order` attribute of the categories shortcode. All sites should update.
 
 = 2.5.5 =
 Adds All Access to the Upgrade page and fixes Advanced Search checkbox filters.

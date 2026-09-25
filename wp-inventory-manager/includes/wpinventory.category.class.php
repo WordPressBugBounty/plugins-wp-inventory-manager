@@ -60,9 +60,13 @@ class WPIMCategory extends WPIMDB {
 		if ($order == 'sort_order') {
 			$order = 'category_sort_order';
 		}
-		
-//		$order = $this->parse_sort($order, $this->get_fields());
-		
+
+		// SECURITY (CVE-2026-76005): $order comes from the `sort_order` attribute of
+		// [wpinventory_categories] and is concatenated into ORDER BY, which
+		// $wpdb->prepare() cannot parameterise. Only known category columns (with an
+		// optional ASC / DESC) may reach the query; anything else falls back to the default.
+		$order = $this->validate_order($order);
+
 		if ($name) {
 			$where = $this->wpdb->prepare(' WHERE c.category_name LIKE "%%s%"', $name);
 		}
@@ -90,6 +94,54 @@ class WPIMCategory extends WPIMDB {
 		];
 		
 		return apply_filters('wpim_get_category_fields', $fields);
+	}
+
+	/**
+	 * Reduce a requested sort order to a safe ORDER BY expression.
+	 *
+	 * Accepts a comma-separated string (or an array) of terms, each a column from
+	 * get_fields() optionally followed by ASC or DESC. Terms that are not an allowed
+	 * column are dropped; if nothing survives, the default column is used.
+	 *
+	 * @param string|array $order
+	 *
+	 * @return string
+	 */
+	protected function validate_order($order) {
+		$allowed = [];
+		foreach ((array)$this->get_fields() AS $field) {
+			// Guard against a filter returning anything that is not a plain identifier.
+			if (is_string($field) && preg_match('/^[A-Za-z0-9_]+$/', $field)) {
+				$allowed[] = $field;
+			}
+		}
+
+		$terms = is_array($order) ? $order : explode(',', (string)$order);
+		$safe  = [];
+
+		foreach ($terms AS $term) {
+			if ( ! is_scalar($term)) {
+				continue;
+			}
+
+			$term = trim((string)$term);
+			$dir  = '';
+
+			if (preg_match('/^(.+?)\s+(ASC|DESC)$/i', $term, $matches)) {
+				$term = trim($matches[1]);
+				$dir  = ' ' . strtoupper($matches[2]);
+			}
+
+			if ('sort_order' == $term) {
+				$term = 'category_sort_order';
+			}
+
+			if (in_array($term, $allowed, TRUE)) {
+				$safe[] = $term . $dir;
+			}
+		}
+
+		return ($safe) ? implode(', ', $safe) : 'category_name';
 	}
 	
 	/**
