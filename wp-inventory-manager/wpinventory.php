@@ -4,7 +4,7 @@
  * Plugin Name:    WP Inventory
  * Plugin URI:    http://www.wpinventory.com
  * Description:    Manage and display your products just like a shopping cart, but without the cart.
- * Version:        2.5.6
+ * Version:        2.5.7
  * Author:        WP Inventory Manager
  * Author URI:    http://www.wpinventory.com/
  * Text Domain:    wpinventory
@@ -165,9 +165,13 @@ if ( ! function_exists( 'wpim_fs' ) ) {
 	 *
 	 * EDD customers are unaffected: they run Pro, where the SDK does not load at all while their
 	 * licence is valid, so they keep the custom Add Ons page and its reworked design.
+	 *
+	 * The small inline teasers (empty inventory, item form, Labels screen) still show here. They
+	 * carry no price of their own; on this route they open the add-on in Freemius's Add-Ons page
+	 * instead of the website promo pages, so the one-shop rule holds. See WPIMPromo.
 	 */
 	add_filter( 'wpim_suppress_admin_menu_add_ons', '__return_true' );
-	add_filter( 'wpim_suppress_promos', '__return_true' );
+	add_filter( 'wpim_promos_sell_through_freemius', '__return_true' );
 
 	// All Access is a Freemius bundle sold alongside this product. Its identifiers live here
 	// rather than being spelled out at each call site; the price matches what the Freemius
@@ -302,7 +306,7 @@ if ( ! function_exists( 'wpim_fs' ) ) {
 // the file is compiled, which fatals before any runtime guard above can run.
 if ( ! class_exists( 'WPIMConstants', FALSE ) ) :
 abstract class WPIMConstants {
-	const VERSION = '2.5.6';
+	const VERSION = '2.5.7';
 	const MIN_PHP_VERSION = '5.6';
 	const SHORTCODE = 'wpinventory';
 	const SETTINGS = 'wpinventory_settings';

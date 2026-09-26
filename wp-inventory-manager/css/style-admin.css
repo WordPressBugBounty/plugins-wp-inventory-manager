@@ -1509,6 +1509,25 @@ img.not_the_page {
     font-size: 13px;
 }
 
+.inventorywrap .wpim-field-teaser a {
+    white-space: nowrap;
+}
+
+.inventorywrap .wpim-field-teaser .wpim-teaser-dismiss {
+    margin-left: 12px;
+    white-space: nowrap;
+}
+
+.inventorywrap .wpim-field-teaser .wpim-teaser-dismiss a {
+    color: #7A8290;
+    font-size: 12px;
+    text-decoration: none;
+}
+
+.inventorywrap .wpim-field-teaser .wpim-teaser-dismiss a:hover {
+    color: #DC2626;
+}
+
 .inventorywrap .wpim-labels-teaser {
     margin: 15px 0;
     padding: 12px 15px;

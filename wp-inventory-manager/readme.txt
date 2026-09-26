@@ -3,7 +3,7 @@ Contributors: chuck1982
 Tags: inventory, inventory manager, product catalog, stock management, woocommerce alternative
 Requires at least: 3.5.0
 Tested up to: 7.1
-Stable Tag: 2.5.6
+Stable Tag: 2.5.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -166,6 +166,9 @@ Full documentation is available at [https://www.wpinventory.com/documentation/us
 
 
 == Changelog ==
+= 2.5.7 =
+* New: short, dismissible tips on the screens where an add-on can help, such as importing a spreadsheet into an empty inventory, adding custom fields, tracking stock across locations, per-item low-stock alerts, a reservation cart and visitor search filters. Each opens the add-on's details on the Add-Ons page, and "No thanks, hide this" hides it for good.
+
 = 2.5.6 =
 * Security: fixed an authenticated (Contributor+) SQL injection in the `sort_order` attribute of the `[wpinventory_categories]` shortcode (CVE-2026-76005). The sort order is now checked against the list of category columns, with an optional ASC or DESC, and anything else falls back to sorting by name. Legitimate sort orders continue to work unchanged.
 
@@ -760,6 +763,9 @@ Full documentation is available at [https://www.wpinventory.com/documentation/us
     * Initial release with license system
 
 == Upgrade Notice ==
+
+= 2.5.7 =
+Adds dismissible add-on tips on the screens where they apply.
 
 = 2.5.6 =
 Security release: fixes a SQL injection (CVE-2026-76005) in the `sort_order` attribute of the categories shortcode. All sites should update.
