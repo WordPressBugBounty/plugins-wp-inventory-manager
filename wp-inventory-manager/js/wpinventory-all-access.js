@@ -106,13 +106,14 @@
 		}
 
 		// A cloned node carries none of React's handlers, so the button is inert until we
-		// wire it. Open the checkout in a new tab: it is Freemius-hosted, not part of wp-admin.
+		// wire it. The checkout is the in-plugin one, tied to this site, so open it in the same
+		// tab: the purchase then returns here, as a Pro purchase does.
 		var button = clone.querySelector( '.fs-upgrade-button' );
 		if ( button ) {
 			button.textContent = cfg.buttonText;
 			button.addEventListener( 'click', function ( e ) {
 				e.preventDefault();
-				window.open( cfg.checkoutUrl, '_blank', 'noopener' );
+				window.location.href = cfg.checkoutUrl;
 			} );
 		}
 

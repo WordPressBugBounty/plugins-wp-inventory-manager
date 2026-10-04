@@ -185,8 +185,8 @@ class WPIMPromo extends WPIMCore {
 		echo '<tr class="wpim-field-teaser wpim-teaser">';
 		echo '<th></th>';
 		echo '<td>';
-		echo '<strong>' . esc_html( $lead ) . '</strong> ' . esc_html( $body ) . ' ';
-		echo '<a href="' . esc_url( $url ) . '" target="_blank" rel="noopener">' . esc_html( $cta ) . ' &rarr;</a>';
+		echo '<strong>' . esc_html( $lead ) . '</strong> ' . esc_html( $body ) . ' ' . $this->requirement( $key ) . ' ';
+		echo $this->cta_links( $key, $url, $cta, ' target="_blank" rel="noopener"' );
 		echo '<span class="wpim-teaser-dismiss"><a href="' . esc_url( $this->background_dismiss_url( $key ) ) . '" target="_blank" rel="noopener" data-wpim-dismiss>'
 		     . self::__( 'No thanks, hide this' ) . '</a></span>';
 		echo '</td>';
@@ -217,8 +217,8 @@ class WPIMPromo extends WPIMCore {
 		}
 
 		$html = '<div class="wpim-labels-teaser wpim-teaser">';
-		$html .= '<p><strong>' . esc_html( $lead ) . '</strong> ' . esc_html( $body ) . ' '
-		         . '<a href="' . esc_url( $url ) . '">' . esc_html( $cta ) . ' &rarr;</a></p>';
+		$html .= '<p><strong>' . esc_html( $lead ) . '</strong> ' . esc_html( $body ) . ' ' . $this->requirement( $key ) . ' '
+		         . $this->cta_links( $key, $url, $cta ) . '</p>';
 		$html .= '<p class="wpim-teaser-dismiss"><a href="' . esc_url( add_query_arg( 'dismiss', $key ) ) . '">'
 		         . self::__( 'No thanks, hide this' ) . '</a></p>';
 		$html .= '</div>';
@@ -315,9 +315,10 @@ class WPIMPromo extends WPIMCore {
 	 * Freemius's Add-Ons page with this add-on's details already open, where it can be bought.
 	 *
 	 * The slug is looked up by the add-on's Freemius ID in the add-on list the SDK has already
-	 * stored, rather than hardcoded (at least one live slug is not the plugin's folder name).
-	 * Reading the stored list never calls the Freemius API, so an admin screen cannot be slowed
-	 * or stalled by it; if the list has not been fetched yet, this falls back to the Add-Ons page.
+	 * stored (at least one live slug is not the plugin's folder name). Reading the stored list
+	 * never calls the Freemius API, so an admin screen cannot be slowed or stalled by it. On a
+	 * new site that list is empty until the Add-Ons page is opened, so the stored freemius_slug
+	 * is used instead; only an entry with neither falls back to the Add-Ons page itself.
 	 *
 	 * @param string $key - promo key, e.g. 'aim'
 	 *
@@ -334,17 +335,69 @@ class WPIMPromo extends WPIMCore {
 		$all_addons = Freemius::get_all_addons();
 		$parent_id  = $fs->get_id();
 
-		if ( empty( $all_addons[ $parent_id ] ) || ! is_array( $all_addons[ $parent_id ] ) ) {
-			return $fallback;
-		}
-
-		foreach ( $all_addons[ $parent_id ] as $addon ) {
-			if ( is_object( $addon ) && ! empty( $addon->slug ) && $addon->id == $this->promote[ $key ]['freemius_id'] ) {
-				return $fs->addon_url( $addon->slug );
+		if ( ! empty( $all_addons[ $parent_id ] ) && is_array( $all_addons[ $parent_id ] ) ) {
+			foreach ( $all_addons[ $parent_id ] as $addon ) {
+				if ( is_object( $addon ) && ! empty( $addon->slug ) && $addon->id == $this->promote[ $key ]['freemius_id'] ) {
+					return $fs->addon_url( $addon->slug );
+				}
 			}
 		}
 
+		// The SDK has not cached the add-on list yet, which is the case on a new site until
+		// the Add-Ons page has been opened once. The details panel opens from the slug alone.
+		if ( ! empty( $this->promote[ $key ]['freemius_slug'] ) ) {
+			return $fs->addon_url( $this->promote[ $key ]['freemius_slug'] );
+		}
+
 		return $fallback;
+	}
+
+	/**
+	 * On Freemius sites, name the add-on and say it needs Pro: an add-on only runs on Pro
+	 * (WPIMCore::check_version() refuses every add-on on the free plugin), so a teaser that
+	 * sold one without saying so would sell something that does not load.
+	 *
+	 * @param string $key - promo key, e.g. 'ie'
+	 *
+	 * @return string HTML
+	 */
+	private function requirement( $key ) {
+		if ( ! $this->sell_through_freemius || empty( $this->promote[ $key ]['name'] ) ) {
+			return '';
+		}
+
+		return sprintf(
+			/* translators: %s: add-on name, e.g. Import and Export */
+			esc_html( self::__( 'The %s add-on does this, and requires WP Inventory Pro.' ) ),
+			'<strong>' . esc_html( $this->promote[ $key ]['name'] ) . '</strong>'
+		);
+	}
+
+	/**
+	 * The teaser's links. Elsewhere: the one link to the promo page. On Freemius sites: the
+	 * add-on's own page (where it is described and priced) and the Upgrade page for Pro.
+	 *
+	 * @param string $key   - promo key, e.g. 'ie'
+	 * @param string $url   - the add-on link
+	 * @param string $cta   - link text used off Freemius
+	 * @param string $attrs - extra <a> attributes, e.g. target
+	 *
+	 * @return string HTML
+	 */
+	private function cta_links( $key, $url, $cta, $attrs = '' ) {
+		if ( ! $this->sell_through_freemius || empty( $this->promote[ $key ]['name'] ) ) {
+			return '<a href="' . esc_url( $url ) . '"' . $attrs . '>' . esc_html( $cta ) . ' &rarr;</a>';
+		}
+
+		$addon = '<a href="' . esc_url( $url ) . '"' . $attrs . '>'
+		         . esc_html( sprintf( self::__( 'See %s' ), $this->promote[ $key ]['name'] ) ) . ' &rarr;</a>';
+
+		$pro_url = function_exists( 'wpim_fs' ) ? wpim_fs()->get_upgrade_url() : '';
+		if ( ! $pro_url ) {
+			return $addon;
+		}
+
+		return $addon . ' &nbsp; <a href="' . esc_url( $pro_url ) . '"' . $attrs . '>' . esc_html( self::__( 'Get WP Inventory Pro' ) ) . ' &rarr;</a>';
 	}
 
 	/**
@@ -382,8 +435,8 @@ class WPIMPromo extends WPIMCore {
 
 		echo '<div class="wpim-empty-state-teaser">';
 		echo '<p class="wpim-teaser-lead">' . self::__( 'Already have your inventory in a spreadsheet?' ) . '</p>';
-		echo '<p>' . self::__( 'Import all your items from a CSV instead of adding them one by one.' ) . '</p>';
-		echo '<p><a href="' . esc_url( $promo_url ) . '">' . self::__( 'Import from CSV' ) . ' &rarr;</a></p>';
+		echo '<p>' . self::__( 'Import all your items from a CSV instead of adding them one by one.' ) . ' ' . $this->requirement( 'ie' ) . '</p>';
+		echo '<p>' . $this->cta_links( 'ie', $promo_url, self::__( 'Import from CSV' ) ) . '</p>';
 		echo '<p class="wpim-teaser-dismiss"><a href="' . esc_url( add_query_arg( 'dismiss', 'ie' ) ) . '">' . self::__( 'No thanks, hide this' ) . '</a></p>';
 		echo '</div>';
 	}
@@ -729,6 +782,8 @@ class WPIMPromo extends WPIMCore {
 	 * menu - the "Title" that is used in the admin menu
 	 * callback - the name of the function in this class that is called when the menu item is clicked
 	 * freemius_id - the add-on's Freemius product ID, used to open it in Freemius's Add-Ons page
+	 * name        - the add-on's store name, used in the teasers on Freemius sites
+	 * freemius_slug - the add-on's slug in Freemius (not always its folder name), used when the SDK has not cached the add-on list yet
 	 */
 	private function set_up_promotions() {
 		$this->promote = [
@@ -740,7 +795,9 @@ class WPIMPromo extends WPIMCore {
 				'menu'     => self::__( 'Import / Export' ),
 				'title'    => self::__( 'Import / Export' ),
 				'callback' => 'promote_ie',
-				'freemius_id' => 34650
+				'freemius_id' => 34650,
+				'freemius_slug' => 'wp-inventory-import-export',
+				'name'        => self::__( 'Import and Export' )
 			],
 			'aim'       => [
 				'keywords' => [
@@ -751,14 +808,18 @@ class WPIMPromo extends WPIMCore {
 				'menu'     => self::__( 'Advanced Management' ),
 				'title'    => self::__( 'Advanced Inventory Manager' ),
 				'callback' => 'promote_aim',
-				'freemius_id' => 35588
+				'freemius_id' => 35588,
+				'freemius_slug' => 'wp-inventory-advanced-item-4-2',
+				'name'        => self::__( 'Advanced Inventory Manager' )
 			],
 			'locations'  => [
 				'keywords' => [ 'Location' ],
 				'menu'     => self::__( 'Locations Manager' ),
 				'title'    => self::__( 'Locations Manager' ),
 				'callback' => 'promote_locations',
-				'freemius_id' => 34826
+				'freemius_id' => 34826,
+				'freemius_slug' => 'wp-inventory-locations',
+				'name'        => self::__( 'Locations Manager' )
 			],
 			'analytics'  => [
 				'keywords' => [ 'Analytics' ],
@@ -772,17 +833,23 @@ class WPIMPromo extends WPIMCore {
 			'reserve_cart'    => [
 				'keywords'    => [ 'Reserv', 'Cart' ],
 				'title'       => self::__( 'Reserve Cart' ),
-				'freemius_id' => 34827
+				'freemius_id' => 34827,
+				'freemius_slug' => 'wp-inventory-reserve-cart',
+				'name'        => self::__( 'Reserve Cart' )
 			],
 			'notifications'   => [
 				'keywords'    => [ 'Notification' ],
 				'title'       => self::__( 'Notifications' ),
-				'freemius_id' => 34828
+				'freemius_id' => 34828,
+				'freemius_slug' => 'wp-inventory-notifications',
+				'name'        => self::__( 'Notifications' )
 			],
 			'advanced_search' => [
 				'keywords'    => [ 'Advanced', 'Search' ],
 				'title'       => self::__( 'Advanced Search' ),
-				'freemius_id' => 35590
+				'freemius_id' => 35590,
+				'freemius_slug' => 'wp-inventory-filter',
+				'name'        => self::__( 'Advanced Search' )
 			],
 		];
 	}

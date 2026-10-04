@@ -27,6 +27,16 @@ if ( ! function_exists( 'wpim_all_access_url' ) ) {
 	 * @return string
 	 */
 	function wpim_all_access_url() {
+		// The in-plugin checkout, tied to this site: after paying, the buyer comes back here and
+		// the SDK installs Pro and activates the licence, the same way a Pro purchase does.
+		if ( function_exists( 'wpim_fs' ) && defined( 'WPIM_ALL_ACCESS_PRICING_ID' ) ) {
+			return wpim_fs()->checkout_url( WP_FS__PERIOD_ANNUALLY, false, array(
+				'plugin_id'  => WPIM_ALL_ACCESS_BUNDLE_ID,
+				'plan_id'    => WPIM_ALL_ACCESS_PLAN_ID,
+				'pricing_id' => WPIM_ALL_ACCESS_PRICING_ID,
+			) );
+		}
+
 		return 'https://checkout.freemius.com/plugin/' . WPIM_ALL_ACCESS_BUNDLE_ID . '/plan/' . WPIM_ALL_ACCESS_PLAN_ID . '/';
 	}
 }
@@ -134,8 +144,25 @@ wpim_fs()->add_action( 'addons/after_title', function () {
 
 	echo '<div class="wpim_all_access">';
 	echo '<h3>' . esc_html__( 'All Access', 'wpinventory' ) . '</h3>';
+
+	// Add-ons only run on Pro (WPIMCore::check_version()). Say so before anyone buys one here.
+	if ( ! wpim_fs()->has_active_valid_license() && ! wpim_fs()->can_use_premium_code() ) {
+		echo '<p><strong>' . esc_html__( 'Add-ons run on WP Inventory Pro.', 'wpinventory' ) . '</strong> '
+		     . sprintf(
+			     /* translators: %1$s, %2$s: opening and closing link to the Upgrade page */
+			     esc_html__( 'Get Pro on the %1$sUpgrade page%2$s, then add the add-ons you need.', 'wpinventory' ),
+			     '<a href="' . esc_url( wpim_fs()->get_upgrade_url() ) . '">',
+			     '</a>'
+		     ) . '</p>';
+		$message = sprintf(
+			/* translators: %s: price, e.g. $199 */
+			__( 'All Access includes Pro and every add-on on unlimited sites for %s a year.', 'wpinventory' ),
+			WPIM_ALL_ACCESS_PRICE
+		);
+	}
+
 	echo '<p>' . esc_html( $line ) . ' ' . esc_html( $message ) . '</p>';
-	echo '<p class="wpim_all_access_cta"><a class="button button-primary" href="' . esc_url( wpim_all_access_url() ) . '" target="_blank" rel="noopener">'
+	echo '<p class="wpim_all_access_cta"><a class="button button-primary" href="' . esc_url( wpim_all_access_url() ) . '">'
 	     . esc_html__( 'Get All Access', 'wpinventory' ) . '</a></p>';
 	echo '</div>';
 

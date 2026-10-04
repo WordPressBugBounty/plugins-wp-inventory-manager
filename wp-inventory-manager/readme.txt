@@ -3,7 +3,7 @@ Contributors: chuck1982
 Tags: inventory, inventory manager, product catalog, stock management, woocommerce alternative
 Requires at least: 3.5.0
 Tested up to: 7.1
-Stable Tag: 2.5.7
+Stable Tag: 2.5.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -166,6 +166,11 @@ Full documentation is available at [https://www.wpinventory.com/documentation/us
 
 
 == Changelog ==
+= 2.5.8 =
+* Improved: each add-on tip now names the add-on, says that add-ons run on WP Inventory Pro, and links to both the add-on and Pro.
+* Improved: All Access opens a checkout linked to your site, so you come straight back to WP Inventory after paying.
+* Improved: after a purchase, WP Inventory explains the next steps in plain words: install WP Inventory Pro, then any add-ons from your purchase email.
+
 = 2.5.7 =
 * New: short, dismissible tips on the screens where an add-on can help, such as importing a spreadsheet into an empty inventory, adding custom fields, tracking stock across locations, per-item low-stock alerts, a reservation cart and visitor search filters. Each opens the add-on's details on the Add-Ons page, and "No thanks, hide this" hides it for good.
 

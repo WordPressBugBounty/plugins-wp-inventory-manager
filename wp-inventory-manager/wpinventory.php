@@ -4,7 +4,7 @@
  * Plugin Name:    WP Inventory
  * Plugin URI:    http://www.wpinventory.com
  * Description:    Manage and display your products just like a shopping cart, but without the cart.
- * Version:        2.5.7
+ * Version:        2.5.8
  * Author:        WP Inventory Manager
  * Author URI:    http://www.wpinventory.com/
  * Text Domain:    wpinventory
@@ -179,6 +179,7 @@ if ( ! function_exists( 'wpim_fs' ) ) {
 	if ( ! defined( 'WPIM_ALL_ACCESS_BUNDLE_ID' ) ) {
 		define( 'WPIM_ALL_ACCESS_BUNDLE_ID', '35596' );
 		define( 'WPIM_ALL_ACCESS_PLAN_ID', '60324' );
+		define( 'WPIM_ALL_ACCESS_PRICING_ID', '80395' );
 		define( 'WPIM_ALL_ACCESS_PRICE', '$199' );
 	}
 
@@ -298,6 +299,28 @@ if ( ! function_exists( 'wpim_fs' ) ) {
 	}
 	unset( $wpim_existing );
 
+	/**
+	 * Say plainly what a buyer does next.
+	 *
+	 * After a purchase from this plugin, Freemius tells the buyer their account "was
+	 * successfully activated with the PLAN_TITLE plan" and to "Download the latest PLAN_TITLE
+	 * version". PLAN_TITLE is the SDK's placeholder for a plan it cannot find among this
+	 * product's own plans, which is what an All Access licence looks like from here. Measured on
+	 * a sandbox purchase: the buyer saw the placeholder in both places.
+	 *
+	 * The %s arguments are still passed by the SDK; these strings simply do not print them.
+	 * ASCII only, like every other piece of Freemius-facing copy.
+	 */
+	wpim_fs()->override_i18n( array(
+		'activation-with-plan-x-message'   => __( 'Thank you! Your purchase is activated on this site.', 'wpinventory' ),
+		'follow-steps-to-complete-upgrade' => __( 'Next, install WP Inventory Pro, then any add-ons from your purchase email', 'wpinventory' ),
+		'download-latest-x-version'        => __( 'Download WP Inventory Pro', 'wpinventory' ),
+		'upload-and-activate'              => __( 'Upload and activate it on the Plugins screen', 'wpinventory' ),
+		'activate-x-features'              => __( 'Activate WP Inventory Pro', 'wpinventory' ),
+		/* translators: %3$s: activate button. %1$s and %2$s are not used. */
+		'activate-premium-version'         => __( ' WP Inventory Pro is installed. Activate it to finish. %3$s', 'wpinventory' ),
+	) );
+
 	// Signal that SDK was initiated.
 	do_action( 'wpim_fs_loaded' );
 }
@@ -306,7 +329,7 @@ if ( ! function_exists( 'wpim_fs' ) ) {
 // the file is compiled, which fatals before any runtime guard above can run.
 if ( ! class_exists( 'WPIMConstants', FALSE ) ) :
 abstract class WPIMConstants {
-	const VERSION = '2.5.7';
+	const VERSION = '2.5.8';
 	const MIN_PHP_VERSION = '5.6';
 	const SHORTCODE = 'wpinventory';
 	const SETTINGS = 'wpinventory_settings';
