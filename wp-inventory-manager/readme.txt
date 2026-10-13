@@ -3,7 +3,7 @@ Contributors: chuck1982
 Tags: inventory, inventory manager, product catalog, stock management, woocommerce alternative
 Requires at least: 3.5.0
 Tested up to: 7.1
-Stable Tag: 2.5.8
+Stable Tag: 2.5.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -166,6 +166,9 @@ Full documentation is available at [https://www.wpinventory.com/documentation/us
 
 
 == Changelog ==
+= 2.5.9 =
+* Updated Freemius SDK to the latest version.
+
 = 2.5.8 =
 * Improved: each add-on tip now names the add-on, says that add-ons run on WP Inventory Pro, and links to both the add-on and Pro.
 * Improved: All Access opens a checkout linked to your site, so you come straight back to WP Inventory after paying.
